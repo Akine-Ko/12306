@@ -1,0 +1,25 @@
+# 通用忽略规则
+.DS_Store          # macOS 文件
+Thumbs.db          # Windows 文件
+*.log              # 日志文件
+*.bak              # 备份文件
+
+# 编译产物
+/target            # Maven 编译目录
+/build             # Gradle 编译目录
+/out               # IDE 输出目录
+
+# IDE 配置
+.idea/             # IntelliJ IDEA
+.vscode/           # VS Code
+*.iml              # IntelliJ 模块文件
+
+# 环境配置
+.env               # 环境变量
+config.properties  # 配置文件
+
+# 依赖缓存
+/.m2               # Maven 本地仓库
+/.gradle           # Gradle 缓存
+
+.log/
