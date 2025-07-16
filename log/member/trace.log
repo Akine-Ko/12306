@@ -616,3 +616,30 @@ java.lang.NullPointerException: Cannot read field "generatedClass" because "data
 2025-07-16 17:57:16.721 INFO  com.akine.mytrain.member.config.MemberApplication :57   [32m                  [0;39m Started MemberApplication in 4.671 seconds (process running for 5.662)
 2025-07-16 17:57:16.725 INFO  com.akine.mytrain.member.config.MemberApplication :19   [32m                  [0;39m 启动成功！
 2025-07-16 17:57:16.726 INFO  com.akine.mytrain.member.config.MemberApplication :20   [32m                  [0;39m 地址:	http://127.0.0.1:8001//member/hello
+2025-07-16 18:09:56.407 INFO  com.akine.mytrain.member.config.MemberApplication :51   [32m                  [0;39m Starting MemberApplication using Java 17.0.15 with PID 2412 (E:\Project\mytrain\member\target\classes started by 29236 in E:\Project\mytrain)
+2025-07-16 18:09:56.409 INFO  com.akine.mytrain.member.config.MemberApplication :633  [32m                  [0;39m No active profile set, falling back to 1 default profile: "default"
+2025-07-16 18:09:56.467 INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor :250  [32m                  [0;39m Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-07-16 18:09:56.468 INFO  o.s.b.d.env.DevToolsPropertyDefaultsPostProcessor :250  [32m                  [0;39m For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-07-16 18:09:57.172 INFO  o.springframework.cloud.context.scope.GenericScope:282  [32m                  [0;39m BeanFactory id=f6f011fc-650f-3835-98b9-7dec48088414
+2025-07-16 18:09:58.029 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer      :108  [32m                  [0;39m Tomcat initialized with port(s): 8001 (http)
+2025-07-16 18:09:58.038 INFO  org.apache.coyote.http11.Http11NioProtocol        :173  [32m                  [0;39m Initializing ProtocolHandler ["http-nio-8001"]
+2025-07-16 18:09:58.040 INFO  org.apache.catalina.core.StandardService          :173  [32m                  [0;39m Starting service [Tomcat]
+2025-07-16 18:09:58.041 INFO  org.apache.catalina.core.StandardEngine           :173  [32m                  [0;39m Starting Servlet engine: [Apache Tomcat/10.1.16]
+2025-07-16 18:09:58.171 INFO  o.a.c.c.C.[Tomcat].[localhost].[/member]          :173  [32m                  [0;39m Initializing Spring embedded WebApplicationContext
+2025-07-16 18:09:58.172 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext    :291  [32m                  [0;39m Root WebApplicationContext: initialization completed in 1702 ms
+2025-07-16 18:09:59.042 INFO  o.s.b.d.autoconfigure.OptionalLiveReloadServer    :59   [32m                  [0;39m LiveReload server is running on port 35729
+2025-07-16 18:09:59.432 INFO  org.apache.coyote.http11.Http11NioProtocol        :173  [32m                  [0;39m Starting ProtocolHandler ["http-nio-8001"]
+2025-07-16 18:09:59.467 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer      :220  [32m                  [0;39m Tomcat started on port(s): 8001 (http) with context path '/member'
+2025-07-16 18:09:59.775 INFO  com.akine.mytrain.member.config.MemberApplication :57   [32m                  [0;39m Started MemberApplication in 4.313 seconds (process running for 5.179)
+2025-07-16 18:09:59.780 INFO  com.akine.mytrain.member.config.MemberApplication :19   [32m                  [0;39m 启动成功！
+2025-07-16 18:09:59.782 INFO  com.akine.mytrain.member.config.MemberApplication :20   [32m                  [0;39m 地址:	http://127.0.0.1:8001//member/hello
+2025-07-16 18:10:07.768 INFO  o.a.c.c.C.[Tomcat].[localhost].[/member]          :173  [32m                  [0;39m Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-07-16 18:10:07.768 INFO  org.springframework.web.servlet.DispatcherServlet :532  [32m                  [0;39m Initializing Servlet 'dispatcherServlet'
+2025-07-16 18:10:07.770 INFO  org.springframework.web.servlet.DispatcherServlet :554  [32m                  [0;39m Completed initialization in 0 ms
+2025-07-16 18:10:07.827 INFO  com.akine.mytrain.common.aspect.LogAspect         :53   [32m17526606078195xh  [0;39m ------------- 开始 -------------
+2025-07-16 18:10:07.828 INFO  com.akine.mytrain.common.aspect.LogAspect         :54   [32m17526606078195xh  [0;39m 请求地址: http://localhost:8001/member/hello GET
+2025-07-16 18:10:07.828 INFO  com.akine.mytrain.common.aspect.LogAspect         :55   [32m17526606078195xh  [0;39m 类名方法: com.akine.mytrain.member.controller.TestController.hello
+2025-07-16 18:10:07.829 INFO  com.akine.mytrain.common.aspect.LogAspect         :56   [32m17526606078195xh  [0;39m 远程地址: 127.0.0.1
+2025-07-16 18:10:07.877 INFO  com.akine.mytrain.common.aspect.LogAspect         :77   [32m17526606078195xh  [0;39m 请求参数: []
+2025-07-16 18:10:07.879 INFO  com.akine.mytrain.common.aspect.LogAspect         :89   [32m17526606078195xh  [0;39m 返回结果: "hello world!"
+2025-07-16 18:10:07.879 INFO  com.akine.mytrain.common.aspect.LogAspect         :90   [32m17526606078195xh  [0;39m ------------- 结束 耗时：60 ms -------------
