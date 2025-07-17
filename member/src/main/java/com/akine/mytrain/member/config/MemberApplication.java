@@ -1,5 +1,6 @@
 package com.akine.mytrain.member.config;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -9,6 +10,7 @@ import org.springframework.core.env.Environment;
 
 @SpringBootApplication
 @ComponentScan("com.akine")
+@MapperScan("com.akine.mytrain.*.mapper")
 public class MemberApplication {
 
     private static final Logger log = LoggerFactory.getLogger(MemberApplication.class);
