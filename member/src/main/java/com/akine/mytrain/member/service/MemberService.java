@@ -1,6 +1,8 @@
 package com.akine.mytrain.member.service;
 
 import cn.hutool.core.collection.CollUtil;
+import com.akine.mytrain.common.exception.BusinessException;
+import com.akine.mytrain.common.exception.BusinessExceptionEnum;
 import com.akine.mytrain.member.domain.Member;
 import com.akine.mytrain.member.domain.MemberExample;
 import com.akine.mytrain.member.mapper.MemberMapper;
@@ -30,7 +32,7 @@ public class MemberService {
 
         if(CollUtil.isNotEmpty(list)){
             //return list.get(0).getId();
-            throw new RuntimeException("手机号已注册");
+            throw new BusinessException(BusinessExceptionEnum.MEMBER_MOBILE_EXIST);
         }
         Member member = new Member();
         member.setId(System.currentTimeMillis());
