@@ -1,4 +1,4 @@
-package com.akine.mytrain.gateway.config;
+/*package com.akine.mytrain.gateway.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,4 +22,4 @@ public class Test1Filter implements GlobalFilter, Ordered {
     public int getOrder() {
         return 1;
     }
-}
+}*/
