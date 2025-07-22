@@ -1,34 +1,21 @@
-package com.akine.mytrain.member.req;
-
-import jakarta.validation.constraints.NotBlank;
+package com.akine.mytrain.member.resp;
 
 import java.util.Date;
 
-public class PassengerSaveReq {
+public class PassengerQueryResp {
     private Long id;
 
     private Long memberId;
 
-    @NotBlank(message = "[姓名]不能为空")
     private String name;
 
-    @NotBlank(message = "[身份证]不能为空")
     private String idCard;
 
-    @NotBlank(message = "[乘客类型]不能为空")
     private String type;
 
     private Date createTime;
 
     private Date updateTime;
-
-    public Long getMemberId() {
-        return memberId;
-    }
-
-    public void setMemberId(Long memberId) {
-        this.memberId = memberId;
-    }
 
     public Long getId() {
         return id;
@@ -36,6 +23,14 @@ public class PassengerSaveReq {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
     }
 
     public String getName() {
@@ -80,15 +75,18 @@ public class PassengerSaveReq {
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("PassengerSaveReq{");
-        sb.append("id=").append(id);
+        StringBuilder sb = new StringBuilder();
+        sb.append(getClass().getSimpleName());
+        sb.append(" [");
+        sb.append("Hash = ").append(hashCode());
+        sb.append(", id=").append(id);
         sb.append(", memberId=").append(memberId);
-        sb.append(", name='").append(name).append('\'');
-        sb.append(", idCard='").append(idCard).append('\'');
-        sb.append(", type='").append(type).append('\'');
+        sb.append(", name=").append(name);
+        sb.append(", idCard=").append(idCard);
+        sb.append(", type=").append(type);
         sb.append(", createTime=").append(createTime);
         sb.append(", updateTime=").append(updateTime);
-        sb.append('}');
+        sb.append("]");
         return sb.toString();
     }
 }

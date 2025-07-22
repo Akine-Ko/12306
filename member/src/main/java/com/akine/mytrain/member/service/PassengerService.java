@@ -2,13 +2,19 @@ package com.akine.mytrain.member.service;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
+import cn.hutool.core.util.ObjectUtil;
 import com.akine.mytrain.common.context.LoginMemberContext;
 import com.akine.mytrain.common.util.SnowUtil;
 import com.akine.mytrain.member.domain.Passenger;
+import com.akine.mytrain.member.domain.PassengerExample;
 import com.akine.mytrain.member.mapper.PassengerMapper;
+import com.akine.mytrain.member.req.PassengerQueryReq;
 import com.akine.mytrain.member.req.PassengerSaveReq;
+import com.akine.mytrain.member.resp.PassengerQueryResp;
 import jakarta.annotation.Resource;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PassengerService {
@@ -25,4 +31,17 @@ public class PassengerService {
         passenger.setUpdateTime(now);
         passengerMapper.insert(passenger);
     }
+
+    public List<PassengerQueryResp> queryList(PassengerQueryReq req) {
+        PassengerExample passengerExample = new PassengerExample();
+        PassengerExample.Criteria criteria = passengerExample.createCriteria();
+        if(ObjectUtil.isNotNull(req.getMemberId())){
+            criteria.andMemberIdEqualTo(req.getMemberId());
+        }
+
+        List<Passenger> passengerList = passengerMapper.selectByExample(passengerExample);
+
+        return BeanUtil.copyToList(passengerList, PassengerQueryResp.class);
+    }
+
 }

@@ -9,6 +9,10 @@ public class LoginMemberContext {
 
     private static ThreadLocal<MemberLoginResp> member = new ThreadLocal<>();
 
+    public static MemberLoginResp getMember() {
+        return member.get();
+    }
+
     public static void setMember(MemberLoginResp member) {
         LoginMemberContext.member.set(member);
     }
