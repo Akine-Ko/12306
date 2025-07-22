@@ -4,7 +4,7 @@
     <a-layout>
       <the-sider-view/>
       <a-layout-content
-        :style="{ background: '#FFFF', padding: '24px', margin: 0, minHeight: '280px' }"
+        :style="{ background: '#fff', padding: '24px', margin: 0, minHeight: '280px' }"
       >
         <router-view/>
       </a-layout-content>
@@ -29,7 +29,7 @@ export default defineComponent({
 });
 </script>
 <style>
-#components-layout-demo-top-side .logo {
+#components-layout-demo-top-side-2 .logo {
   float: left;
   width: 120px;
   height: 31px;
@@ -37,7 +37,7 @@ export default defineComponent({
   background: rgba(255, 255, 255, 0.3);
 }
 
-.ant-row-rtl #components-layout-demo-top-side .logo {
+.ant-row-rtl #components-layout-demo-top-side-2 .logo {
   float: right;
   margin: 16px 0 16px 24px;
 }
