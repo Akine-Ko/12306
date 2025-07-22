@@ -2,6 +2,7 @@ package com.akine.mytrain.member.controller;
 
 import com.akine.mytrain.common.context.LoginMemberContext;
 import com.akine.mytrain.common.resp.CommonResp;
+import com.akine.mytrain.common.resp.PageResp;
 import com.akine.mytrain.member.req.PassengerQueryReq;
 import com.akine.mytrain.member.req.PassengerSaveReq;
 import com.akine.mytrain.member.resp.PassengerQueryResp;
@@ -9,8 +10,6 @@ import com.akine.mytrain.member.service.PassengerService;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/passenger")
@@ -26,9 +25,9 @@ public class PassengerController {
     }
 
     @GetMapping("/query-list")
-    public CommonResp<Object> quertList(@Valid PassengerQueryReq req) {
+    public CommonResp<PageResp<PassengerQueryResp>> quertList(@Valid PassengerQueryReq req) {
         req.setMemberId(LoginMemberContext.getId());
-        List<PassengerQueryResp> list = passengerService.queryList(req);
+        PageResp<PassengerQueryResp> list = passengerService.queryList(req);
         return new CommonResp<>(list);
     }
 
