@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import store from "@/store";
+import {notification} from "ant-design-vue";
 
 const routes = [
   {
@@ -11,9 +12,23 @@ const routes = [
     component: () => import('../views/main.vue'),
     meta:{
       loginRequire:true
-    }
+    },
+
+    children:[{
+      path: 'welcome',
+      component: () => import('../views/main/welcome.vue'),
+    },
+      {
+        path:'passenger',
+        component: () => import('../views/main/passenger.vue'),
+      }]
+  },
+  {
+    path: '',
+    redirect:'/welcome',
   }
 ]
+
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
@@ -30,6 +45,7 @@ router.beforeEach((to, from, next) => {
 
     if (!_member.token) {
       console.log("用户未登录或登录超时!");
+      notification.error({description:"未登录或登录超时"})
       next('/login');
     } else {
       next();
