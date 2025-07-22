@@ -10,7 +10,7 @@
           <coffee-outlined/> &nbsp; 欢迎
         </router-link>
       </a-menu-item>
-      <a-menu-item key="passenger">
+      <a-menu-item key="/passenger">
         <router-link to="/passenger">
           <user-outlined /> &nbsp; 乘车人管理
         </router-link>
