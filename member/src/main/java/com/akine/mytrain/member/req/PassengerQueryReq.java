@@ -1,6 +1,8 @@
 package com.akine.mytrain.member.req;
 
-public class PassengerQueryReq {
+import com.akine.mytrain.common.req.PageReq;
+
+public class PassengerQueryReq extends PageReq {
 
     private Long memberId;
 
