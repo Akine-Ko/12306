@@ -78,7 +78,7 @@ export default defineComponent({
     ];
 
     const handleQuery = (params) => {
-      axios.post("/member/passenger/query-list", {
+      axios.get("/member/passenger/query-list", {
         params: {
           page: params.page,
           size: params.size
