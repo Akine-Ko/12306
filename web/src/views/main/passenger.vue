@@ -170,8 +170,8 @@ export default defineComponent({
 
     const handleTableChange = (pagination) => {
       handleQuery({
-        page: pagination.value.current,
-        size: pagination.value.pageSize,
+        page: pagination.current,
+        size: pagination.pageSize,
       });
     }
 
