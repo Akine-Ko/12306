@@ -1,6 +1,7 @@
 <template>
   <p>
     <a-button type="primary" @click="showModal">新增</a-button>
+    <a-button type="primary" @click="handleQuery()">刷新</a-button>
   </p>
   <a-table :data-source="passengers" :columns="columns"  :pagination="pagination" @change="handleTableChange" />
   <a-modal v-model:visible="visible" title="乘车人" @ok="handleOk"
@@ -84,18 +85,25 @@ export default defineComponent({
       }
     ];
 
-    const handleQuery = (params) => {
+    const handleQuery = (param) => {
+      if(!param){
+        param = {
+          page: 1,
+          size: pagination.pageSize,
+        }
+      }
+
       axios.get("/member/passenger/query-list", {
         params: {
-          page: params.page,
-          size: params.size
+          page: param.page,
+          size: param.size
         }
       }).then((response) => {
         let data = response.data;
         if (data.success) {
           passengers.value = data.content.list;
           //设置分页控件的值
-          pagination.current = params.page;
+          pagination.current = param.page;
           pagination.total = data.content.total;
         } else{
           notification.error({description: data.message})
@@ -126,6 +134,7 @@ export default defineComponent({
       passengers,
       pagination,
       handleTableChange,
+      handleQuery,
     };
   },
 });
