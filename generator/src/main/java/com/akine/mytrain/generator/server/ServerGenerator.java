@@ -11,11 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ServerGenerator {
-    static String servicePath = "[module]/src/main/java/com/akine/mytrain/[module]/service/";
+    static String serverPath = "[module]/src/main/java/com/akine/mytrain/[module]/";
     static String pomPath = "generator\\pom.xml";
-    static {
-        new File(servicePath).mkdirs();
-    }
 
     public static void main(String[] args) throws Exception {
 
@@ -24,7 +21,7 @@ public class ServerGenerator {
 
         String module = generatorPath.replace("src/main/resources/generator-config-", "").replace(".xml", "");
         System.out.println("module:" + module);
-        servicePath = servicePath.replace("[module]", module);
+        serverPath = serverPath.replace("[module]", module);
 
         //读取table节点
         Document document = new SAXReader().read("generator/" + generatorPath);
@@ -46,8 +43,18 @@ public class ServerGenerator {
         param.put("do_main", do_main);
         System.out.println("组装参数:" + param);
 
-        FreeMarkerUtil.initConfig("service.ftl");
-        FreeMarkerUtil.generator(servicePath + Domain + ".java", param);
+        gen(Domain, param, "service");
+        gen(Domain, param, "controller");
+    }
+
+    private static void gen(String Domain, Map<String, Object> param, String target) throws Exception {
+        FreeMarkerUtil.initConfig(target + ".ftl");
+        String toPath = serverPath + target + "/";
+        new File(toPath).mkdirs();
+        String Target = target.substring(0, 1).toUpperCase() + target.substring(1);
+        String fileName = toPath + Domain + Target + ".java";
+        System.out.println("开始生成:" + fileName);
+        FreeMarkerUtil.generator(fileName, param);
     }
 
     private static String getGeneratorPath() throws DocumentException {

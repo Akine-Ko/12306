@@ -3,37 +3,37 @@ package com.akine.mytrain.member.controller;
 import com.akine.mytrain.common.context.LoginMemberContext;
 import com.akine.mytrain.common.resp.CommonResp;
 import com.akine.mytrain.common.resp.PageResp;
-import com.akine.mytrain.member.req.PassengerQueryReq;
-import com.akine.mytrain.member.req.PassengerSaveReq;
-import com.akine.mytrain.member.resp.PassengerQueryResp;
-import com.akine.mytrain.member.service.PassengerService;
+import com.akine.mytrain.member.req.${Domain}QueryReq;
+import com.akine.mytrain.member.req.${Domain}SaveReq;
+import com.akine.mytrain.member.resp.${Domain}QueryResp;
+import com.akine.mytrain.member.service.${Domain}Service;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/passenger")
-public class PassengerController {
+@RequestMapping("/${do_main}")
+public class ${Domain}Controller {
 
 @Resource
-private PassengerService passengerService;
+private ${Domain}Service ${domain}Service;
 
 @PostMapping("/save")
-public CommonResp<Object> save(@Valid @RequestBody PassengerSaveReq req) {
-    passengerService.save(req);
+public CommonResp<Object> save(@Valid @RequestBody ${Domain}SaveReq req) {
+    ${domain}Service.save(req);
     return new CommonResp<>();
     }
 
     @GetMapping("/query-list")
-    public CommonResp<PageResp<PassengerQueryResp>> quertList(@Valid PassengerQueryReq req) {
+    public CommonResp<PageResp<${Domain}QueryResp>> quertList(@Valid ${Domain}QueryReq req) {
         req.setMemberId(LoginMemberContext.getId());
-        PageResp<PassengerQueryResp> list = passengerService.queryList(req);
+        PageResp<${Domain}QueryResp> list = ${domain}Service.queryList(req);
             return new CommonResp<>(list);
             }
 
             @DeleteMapping("/delete/{id}")
             public CommonResp<Object> delete(@PathVariable Long id) {
-                passengerService.delete(id);
+                ${domain}Service.delete(id);
                 return new CommonResp<>();
                 }
 
