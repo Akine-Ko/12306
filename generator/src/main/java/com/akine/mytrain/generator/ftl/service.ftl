@@ -1,4 +1,4 @@
-package com.akine.mytrain.member.service;
+package com.akine.mytrain.${module}.service;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
@@ -6,12 +6,12 @@ import cn.hutool.core.util.ObjectUtil;
 import com.akine.mytrain.common.context.LoginMemberContext;
 import com.akine.mytrain.common.resp.PageResp;
 import com.akine.mytrain.common.util.SnowUtil;
-import com.akine.mytrain.member.domain.${Domain};
-import com.akine.mytrain.member.domain.${Domain}Example;
-import com.akine.mytrain.member.mapper.${Domain}Mapper;
-import com.akine.mytrain.member.req.${Domain}QueryReq;
-import com.akine.mytrain.member.req.${Domain}SaveReq;
-import com.akine.mytrain.member.resp.${Domain}QueryResp;
+import com.akine.mytrain.${module}.domain.${Domain};
+import com.akine.mytrain.${module}.domain.${Domain}Example;
+import com.akine.mytrain.${module}.mapper.${Domain}Mapper;
+import com.akine.mytrain.${module}.req.${Domain}QueryReq;
+import com.akine.mytrain.${module}.req.${Domain}SaveReq;
+import com.akine.mytrain.${module}.resp.${Domain}QueryResp;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;

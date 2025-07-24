@@ -1,12 +1,12 @@
-package com.akine.mytrain.member.controller;
+package com.akine.mytrain.${module}.controller;
 
 import com.akine.mytrain.common.context.LoginMemberContext;
 import com.akine.mytrain.common.resp.CommonResp;
 import com.akine.mytrain.common.resp.PageResp;
-import com.akine.mytrain.member.req.${Domain}QueryReq;
-import com.akine.mytrain.member.req.${Domain}SaveReq;
-import com.akine.mytrain.member.resp.${Domain}QueryResp;
-import com.akine.mytrain.member.service.${Domain}Service;
+import com.akine.mytrain.${module}.req.${Domain}QueryReq;
+import com.akine.mytrain.${module}.req.${Domain}SaveReq;
+import com.akine.mytrain.${module}.resp.${Domain}QueryResp;
+import com.akine.mytrain.${module}.service.${Domain}Service;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;

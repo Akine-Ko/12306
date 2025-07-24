@@ -1,4 +1,4 @@
-package com.akine.mytrain.member.req;
+package com.akine.mytrain.${module}.req;
 
 <#list typeSet as type>
 <#if type=='Date'>

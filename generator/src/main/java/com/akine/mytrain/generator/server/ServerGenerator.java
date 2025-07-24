@@ -61,6 +61,7 @@ public class ServerGenerator {
         param.put("tableNameCn", tableNameCn);
         param.put("typeSet", typeSet);
         param.put("fieldList", fieldList);
+        param.put("module", module);
         System.out.println("组装参数:" + param);
 
         gen(Domain, param, "service", "service");
