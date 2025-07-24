@@ -8,16 +8,14 @@ public class Field {
     private String type; //字段类型char(8)
     private String javaType; //java类型String
     private String comment; //注释:课程ID
-
-    public void setNullAble(Boolean nullAble) {
-        this.nullAble = nullAble;
-    }
-
     private Boolean nullAble; //是否可为空
     private Integer length; //字符串长度
     private Boolean enums; //是否可枚举
     private String enumsConst; //枚举常量COURSE_LEVEL
 
+    public Boolean getNullAble() {
+        return nullAble;
+    }
 
     public String getName() {
         return name;
@@ -100,6 +98,11 @@ public class Field {
     public void setEnumsConst(String enumsConst) {
         this.enumsConst = enumsConst;
     }
+
+    public void setNullAble(Boolean nullAble) {
+        this.nullAble = nullAble;
+    }
+
 
     @Override
     public String toString() {
