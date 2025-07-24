@@ -3,7 +3,6 @@ package com.akine.mytrain.${module}.service;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.ObjectUtil;
-import com.akine.mytrain.common.context.LoginMemberContext;
 import com.akine.mytrain.common.resp.PageResp;
 import com.akine.mytrain.common.util.SnowUtil;
 import com.akine.mytrain.${module}.domain.${Domain};
@@ -33,7 +32,6 @@ public class ${Domain}Service {
         DateTime now = DateTime.now();
         ${Domain} ${domain} = BeanUtil.copyProperties(req, ${Domain}.class);
         if(ObjectUtil.isNull(${domain}.getId())){
-            ${domain}.setMemberId(LoginMemberContext.getId());
             ${domain}.setId(SnowUtil.getSnowflakeNextId());
             ${domain}.setCreateTime(now);
             ${domain}.setUpdateTime(now);
@@ -50,9 +48,6 @@ public class ${Domain}Service {
         ${Domain}Example ${domain}Example = new ${Domain}Example();
         ${domain}Example.setOrderByClause("id desc");
         ${Domain}Example.Criteria criteria = ${domain}Example.createCriteria();
-        if(ObjectUtil.isNotNull(req.getMemberId())){
-            criteria.andMemberIdEqualTo(req.getMemberId());
-        }
 
         logger.info("查询页码:{}", req.getPage());
         logger.info("每页条数:{}", req.getSize());
