@@ -1,5 +1,7 @@
 package com.akine.mytrain.generator.server;
 
+import com.akine.mytrain.generator.util.DBUtil;
+import com.akine.mytrain.generator.util.Field;
 import com.akine.mytrain.generator.util.FreeMarkerUtil;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -8,6 +10,7 @@ import org.dom4j.io.SAXReader;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ServerGenerator {
@@ -31,10 +34,25 @@ public class ServerGenerator {
         Node domainObjectName = table.selectSingleNode("@domainObjectName");
         System.out.println(tableName.getText() + "/" + domainObjectName.getText());
 
+        //为DBUtil设置数据源
+        Node connectionURL = document.selectSingleNode("//@connectionURL");
+        Node userId = document.selectSingleNode("//@userId");
+        Node password = document.selectSingleNode("//@password");
+        System.out.println("url:" + connectionURL.getText());
+        System.out.println("user:" + userId.getText());
+        System.out.println("password:" + password.getText());
+        DBUtil.url = connectionURL.getText();
+        DBUtil.user = userId.getText();
+        DBUtil.password = password.getText();
+
+
         String Domain = domainObjectName.getText();
         String domain = Domain.substring(0, 1).toLowerCase() + Domain.substring(1);
         //给url用
         String do_main = tableName.getText().replaceAll("_", "-");
+
+        String tableNameCn = DBUtil.getTableComment(tableName.getText());
+        List<Field> fieldList = DBUtil.getColumnByTableName(tableName.getText());
 
         //组装参数
         Map<String, Object> param = new HashMap<>();
@@ -67,4 +85,5 @@ public class ServerGenerator {
         System.out.println(node.getText());
         return node.getText();
     }
+
 }
