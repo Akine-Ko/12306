@@ -11,7 +11,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <h1>关于123306</h1>
+  <h1>关于12306</h1>
 </template>
 
 <style scoped>

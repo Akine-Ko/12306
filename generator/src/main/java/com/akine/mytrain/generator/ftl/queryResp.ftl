@@ -1,4 +1,4 @@
-package com.akine.train.${module}.resp;
+package com.akine.mytrain.${module}.resp;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;

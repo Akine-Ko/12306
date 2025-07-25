@@ -19,7 +19,7 @@ public class BusinessApplication {
         SpringApplication app = new SpringApplication(BusinessApplication.class);
         Environment env = app.run(args).getEnvironment();
         log.info("启动成功！");
-        log.info("地址:\thttp://127.0.0.1:{}/{}/hello", env.getProperty("server.port"), env.getProperty("server.servlet.context-path"));
+        log.info("地址:\thttp://127.0.0.1:{}{}/hello", env.getProperty("server.port"), env.getProperty("server.servlet.context-path"));
 
     }
 }
