@@ -12,6 +12,8 @@ import java.io.File;
 import java.util.*;
 
 public class ServerGenerator {
+    static boolean readOnly = false;
+    static String vuePath = "web/src/views/main/";
     static String serverPath = "[module]/src/main/java/com/akine/mytrain/[module]/";
     static String pomPath = "generator\\pom.xml";
 
@@ -62,13 +64,15 @@ public class ServerGenerator {
         param.put("typeSet", typeSet);
         param.put("fieldList", fieldList);
         param.put("module", module);
+        param.put("readOnly", readOnly);
         System.out.println("组装参数:" + param);
 
 //        gen(Domain, param, "service", "service");
 //        gen(Domain, param, "controller", "controller");
 //        gen(Domain, param, "req", "saveReq");
-        gen(Domain, param, "req", "queryReq");
-        gen(Domain, param, "resp", "queryResp");
+//        gen(Domain, param, "req", "queryReq");
+//        gen(Domain, param, "resp", "queryResp");
+        genVue(do_main, param);
     }
 
     private static void gen(String Domain, Map<String, Object> param, String packageName, String target) throws Exception {
@@ -78,6 +82,14 @@ public class ServerGenerator {
         String Target = target.substring(0, 1).toUpperCase() + target.substring(1);
         String fileName = toPath + Domain + Target + ".java";
         System.out.println("开始生成:" + fileName);
+        FreeMarkerUtil.generator(fileName, param);
+    }
+
+    private static void genVue(String do_main, Map<String, Object> param) throws Exception {
+        FreeMarkerUtil.initConfig("vue.ftl");
+        new File(vuePath).mkdirs();
+        String fileName = vuePath + do_main + ".vue";
+        System.out.println("开始生成：" + fileName);
         FreeMarkerUtil.generator(fileName, param);
     }
 
