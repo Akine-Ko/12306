@@ -1,6 +1,7 @@
 package com.akine.mytrain.generator.gen;
 
 import cn.hutool.core.util.StrUtil;
+import com.akine.mytrain.business.enums.TrainTypeEnum;
 import com.akine.mytrain.member.enums.PassengerTypeEnum;
 
 import java.io.FileOutputStream;
@@ -9,7 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class EnumGenerator {
-    static String path = "web/src/assets/js/enum.js";
+    static String path = "admin/src/assets/js/enums.js";
 
     public static void main(String[] args) {
         StringBuffer bufferObject = new StringBuffer();
@@ -18,6 +19,7 @@ public class EnumGenerator {
         long begin = System.currentTimeMillis();
         try {
             toJson(PassengerTypeEnum.class, bufferObject, bufferArray);
+            toJson(TrainTypeEnum.class, bufferObject, bufferArray);
 
             StringBuffer buffer = bufferObject.append("\r\n").append(bufferArray);
             writeJs(buffer);
@@ -31,7 +33,8 @@ public class EnumGenerator {
 
     private static void toJson(Class clazz, StringBuffer bufferObject, StringBuffer bufferArray) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         // enumConst：将YesNoEnum变成YES_NO
-        String enumConst = StrUtil.toUnderlineCase(clazz.getSimpleName()).toUpperCase().replace("_Enum", "");
+        String enumConst = StrUtil.toUnderlineCase(clazz.getSimpleName())
+                .toUpperCase().replace("_ENUM", "");
         Object[] objects = clazz.getEnumConstants();
         Method name = clazz.getMethod("name");
         Method getDesc = clazz.getMethod("getDesc");
@@ -44,13 +47,13 @@ public class EnumGenerator {
             bufferObject.append(name.invoke(obj)).append(":{code:\"").append(getCode.invoke(obj)).append("\", desc:\"").append(getDesc.invoke(obj)).append("\"}");
 
             if (i < objects.length - 1) {
-                bufferArray.append(",");
+                bufferObject.append(",");
             }
         }
-        bufferObject.append("}\r\n");
+        bufferObject.append("};\r\n");
 
         // 生成数组
-        bufferArray.append(enumConst).append("_ARRAY={");
+        bufferArray.append(enumConst).append("_ARRAY=[");
         for (int i = 0; i < objects.length; i++) {
             Object obj = objects[i];
             bufferArray.append("{code:\"").append(getCode.invoke(obj)).append("\", desc:\"").append(getDesc.invoke(obj)).append("\"}");
