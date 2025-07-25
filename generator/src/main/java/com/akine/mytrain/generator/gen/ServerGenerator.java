@@ -1,4 +1,4 @@
-package com.akine.mytrain.generator.server;
+package com.akine.mytrain.generator.gen;
 
 import com.akine.mytrain.generator.util.DBUtil;
 import com.akine.mytrain.generator.util.Field;
