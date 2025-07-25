@@ -1,4 +1,4 @@
-package com.akine.business.config;
+package com.akine.mytrain.business.config;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;

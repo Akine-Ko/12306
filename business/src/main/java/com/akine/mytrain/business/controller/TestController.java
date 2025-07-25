@@ -1,4 +1,4 @@
-package com.akine.business.controller;
+package com.akine.mytrain.business.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
