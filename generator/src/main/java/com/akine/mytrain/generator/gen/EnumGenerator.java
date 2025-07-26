@@ -1,6 +1,7 @@
 package com.akine.mytrain.generator.gen;
 
 import cn.hutool.core.util.StrUtil;
+import com.akine.mytrain.business.enums.SeatTypeEnum;
 import com.akine.mytrain.business.enums.TrainTypeEnum;
 import com.akine.mytrain.member.enums.PassengerTypeEnum;
 
@@ -20,6 +21,7 @@ public class EnumGenerator {
         try {
             toJson(PassengerTypeEnum.class, bufferObject, bufferArray);
             toJson(TrainTypeEnum.class, bufferObject, bufferArray);
+            toJson(SeatTypeEnum.class, bufferObject, bufferArray);
 
             StringBuffer buffer = bufferObject.append("\r\n").append(bufferArray);
             writeJs(buffer);
