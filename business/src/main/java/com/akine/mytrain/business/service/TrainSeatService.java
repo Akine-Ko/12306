@@ -46,11 +46,15 @@ public class TrainSeatService {
 
     public PageResp<TrainSeatQueryResp> queryList(TrainSeatQueryReq req) {
         TrainSeatExample trainSeatExample = new TrainSeatExample();
-        trainSeatExample.setOrderByClause("id desc");
+        trainSeatExample.setOrderByClause("train_code asc, carriage_index asc, carriage_seat_index asc");
         TrainSeatExample.Criteria criteria = trainSeatExample.createCriteria();
 
         logger.info("查询页码:{}", req.getPage());
         logger.info("每页条数:{}", req.getSize());
+
+        if(ObjectUtil.isNotEmpty(req.getTrainCode())){
+            criteria.andTrainCodeEqualTo(req.getTrainCode());
+        }
 
         PageHelper.startPage(req.getPage(), req.getSize());
         List<TrainSeat> trainSeatList = trainSeatMapper.selectByExample(trainSeatExample);

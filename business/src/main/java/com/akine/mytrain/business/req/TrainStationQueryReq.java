@@ -6,8 +6,6 @@ public class TrainStationQueryReq extends PageReq {
 
     private String trainCode;
 
-
-
     public String getTrainCode() {
         return trainCode;
     }
