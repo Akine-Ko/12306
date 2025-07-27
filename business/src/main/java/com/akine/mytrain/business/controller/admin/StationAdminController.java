@@ -1,15 +1,16 @@
 package com.akine.mytrain.business.controller.admin;
 
-import com.akine.mytrain.common.context.LoginMemberContext;
-import com.akine.mytrain.common.resp.CommonResp;
-import com.akine.mytrain.common.resp.PageResp;
 import com.akine.mytrain.business.req.StationQueryReq;
 import com.akine.mytrain.business.req.StationSaveReq;
 import com.akine.mytrain.business.resp.StationQueryResp;
 import com.akine.mytrain.business.service.StationService;
+import com.akine.mytrain.common.resp.CommonResp;
+import com.akine.mytrain.common.resp.PageResp;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/admin/station")
@@ -34,6 +35,12 @@ public class StationAdminController {
     public CommonResp<Object> delete(@PathVariable Long id) {
         stationService.delete(id);
         return new CommonResp<>();
+    }
+
+    @GetMapping("/query-all")
+    public CommonResp<List<StationQueryResp>> queryAll() {
+        List<StationQueryResp> list = stationService.queryAll();
+        return new CommonResp<>(list);
     }
 
 }
