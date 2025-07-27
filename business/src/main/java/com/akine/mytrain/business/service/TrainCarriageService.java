@@ -3,14 +3,14 @@ package com.akine.mytrain.business.service;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.ObjectUtil;
-import com.akine.mytrain.common.resp.PageResp;
-import com.akine.mytrain.common.util.SnowUtil;
 import com.akine.mytrain.business.domain.TrainCarriage;
 import com.akine.mytrain.business.domain.TrainCarriageExample;
 import com.akine.mytrain.business.mapper.TrainCarriageMapper;
 import com.akine.mytrain.business.req.TrainCarriageQueryReq;
 import com.akine.mytrain.business.req.TrainCarriageSaveReq;
 import com.akine.mytrain.business.resp.TrainCarriageQueryResp;
+import com.akine.mytrain.common.resp.PageResp;
+import com.akine.mytrain.common.util.SnowUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
@@ -74,6 +74,15 @@ public class TrainCarriageService {
 
     public void delete(Long id) {
         trainCarriageMapper.deleteByPrimaryKey(id);
+    }
+
+
+    public List<TrainCarriage> selectByTrainCode(String trainCode) {
+        TrainCarriageExample trainCarriageExample = new TrainCarriageExample();
+        trainCarriageExample.setOrderByClause("`index` asc");
+        TrainCarriageExample.Criteria criteria = trainCarriageExample.createCriteria();
+        criteria.andTrainCodeEqualTo(trainCode);
+        return trainCarriageMapper.selectByExample(trainCarriageExample);
     }
 
 }

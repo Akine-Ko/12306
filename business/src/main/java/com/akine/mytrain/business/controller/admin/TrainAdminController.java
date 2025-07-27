@@ -3,6 +3,7 @@ package com.akine.mytrain.business.controller.admin;
 import com.akine.mytrain.business.req.TrainQueryReq;
 import com.akine.mytrain.business.req.TrainSaveReq;
 import com.akine.mytrain.business.resp.TrainQueryResp;
+import com.akine.mytrain.business.service.TrainSeatService;
 import com.akine.mytrain.business.service.TrainService;
 import com.akine.mytrain.common.resp.CommonResp;
 import com.akine.mytrain.common.resp.PageResp;
@@ -18,6 +19,9 @@ public class TrainAdminController {
 
     @Resource
     private TrainService trainService;
+
+    @Resource
+    private TrainSeatService trainSeatService;
 
     @PostMapping("/save")
     public CommonResp<Object> save(@Valid @RequestBody TrainSaveReq req) {
@@ -42,5 +46,13 @@ public class TrainAdminController {
         trainService.delete(id);
         return new CommonResp<>();
     }
+
+    @GetMapping("/gen-seat/{trainCode}")
+    public CommonResp<Object> genSeat(@PathVariable String trainCode) {
+        trainSeatService.genTrainSeat(trainCode);
+        return new CommonResp<>();
+    }
+
+
 
 }
