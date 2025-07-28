@@ -36,7 +36,7 @@ public class StationService {
         Station station = BeanUtil.copyProperties(req, Station.class);
         if(ObjectUtil.isNull(station.getId())){
             //保存之前，先校验唯一键是否存在
-            Station stationDB = selectByUnique(station.getName());
+            Station stationDB = selectByUnique(req.getName());
             if(ObjectUtil.isNotEmpty(stationDB)){
                 throw new BusinessException(BusinessExceptionEnum.BUSINESS_STATION_NAME_UNIQUE_ERROR);
             }
