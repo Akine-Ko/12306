@@ -15,6 +15,17 @@
         <template v-if="column.dataIndex === 'operation'">
           <a-space>
             <a-popconfirm
+                title="手动执行会立即执行一次，确定执行？"
+                ok-text="是"
+                cancel-text="否"
+                @confirm="handleRun(record)"
+            >
+              <a-button type="primary" size="small">
+                手动执行
+              </a-button>
+            </a-popconfirm>
+
+            <a-popconfirm
                 title="确定重启？"
                 ok-text="是"
                 cancel-text="否"
@@ -228,6 +239,20 @@ export default defineComponent({
       });
     };
 
+    /**
+     * 手动执行
+     */
+    const handleRun = (record) => {
+      axios.post('/batch/admin/job/run', record).then((response) => {
+        const data = response.data;
+        if (data.success) {
+          notification.success({description: "手动执行成功！"});
+        } else {
+          notification.error({description: data.message});
+        }
+      });
+    };
+
     const getEnumValue = (key, obj) => {
       return Tool.getEnumValue(key, obj);
     };
@@ -247,6 +272,7 @@ export default defineComponent({
       handleDelete,
       handleResume,
       handlePause,
+      handleRun,
       job,
       modalVisible,
       modalLoading,
