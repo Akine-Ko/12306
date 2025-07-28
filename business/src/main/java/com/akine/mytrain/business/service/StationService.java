@@ -4,16 +4,16 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.ObjectUtil;
-import com.akine.mytrain.common.exception.BusinessException;
-import com.akine.mytrain.common.exception.BusinessExceptionEnum;
-import com.akine.mytrain.common.resp.PageResp;
-import com.akine.mytrain.common.util.SnowUtil;
 import com.akine.mytrain.business.domain.Station;
 import com.akine.mytrain.business.domain.StationExample;
 import com.akine.mytrain.business.mapper.StationMapper;
 import com.akine.mytrain.business.req.StationQueryReq;
 import com.akine.mytrain.business.req.StationSaveReq;
 import com.akine.mytrain.business.resp.StationQueryResp;
+import com.akine.mytrain.common.exception.BusinessException;
+import com.akine.mytrain.common.exception.BusinessExceptionEnum;
+import com.akine.mytrain.common.resp.PageResp;
+import com.akine.mytrain.common.util.SnowUtil;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
@@ -35,10 +35,8 @@ public class StationService {
         DateTime now = DateTime.now();
         Station station = BeanUtil.copyProperties(req, Station.class);
         if(ObjectUtil.isNull(station.getId())){
-            StationExample stationExample = new StationExample();
-            stationExample.createCriteria().andNameEqualTo(req.getName());
-            List<Station> list = stationMapper.selectByExample(stationExample);
-            if(CollUtil.isNotEmpty(list)){
+            Station stationDB = selectByUnique(station.getName());
+            if(ObjectUtil.isNotEmpty(stationDB)){
                 throw new BusinessException(BusinessExceptionEnum.BUSINESS_STATION_NAME_UNIQUE_ERROR);
             }
 
@@ -50,6 +48,20 @@ public class StationService {
         else{
             station.setUpdateTime(now);
             stationMapper.updateByPrimaryKey(station);
+        }
+
+    }
+
+    private Station selectByUnique(String name) {
+        StationExample stationExample = new StationExample();
+        stationExample.createCriteria().andNameEqualTo(name);
+        List<Station> list = stationMapper.selectByExample(stationExample);
+
+        if(CollUtil.isNotEmpty(list)){
+            return list.get(0);
+        }
+        else{
+            return null;
         }
 
     }
