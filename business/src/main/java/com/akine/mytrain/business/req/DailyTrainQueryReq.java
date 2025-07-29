@@ -35,6 +35,7 @@ public class DailyTrainQueryReq extends PageReq {
                 "date=" + date +
                 ", code='" + code + '\'' +
                 "} " + super.toString();
+
     }
 
 }
