@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.util.Map;
 
 public class FreeMarkerUtil {
-    static String ftlPath = "generator\\src\\main\\java\\com\\akine\\mytrain\\generator\\ftl";
+    static String ftlPath = "generator/src/main/java/com/akine/mytrain/generator/ftl";
 
     static Template temp;
 

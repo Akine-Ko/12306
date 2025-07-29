@@ -50,12 +50,9 @@ public class ServerGenerator {
         DBUtil.user = userId.getText();
         DBUtil.password = password.getText();
 
-        // 示例：表名 jiawa_test
-        // Domain = JiawaTest
+
         String Domain = domainObjectName.getText();
-        // domain = jiawaTest
         String domain = Domain.substring(0, 1).toLowerCase() + Domain.substring(1);
-        // do_main = jiawa-test
         String do_main = tableName.getText().replaceAll("_", "-");
         // 表中文名
         String tableNameCn = DBUtil.getTableComment(tableName.getText());
