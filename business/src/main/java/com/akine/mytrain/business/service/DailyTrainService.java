@@ -3,6 +3,7 @@ package com.akine.mytrain.business.service;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.akine.mytrain.business.domain.DailyTrain;
 import com.akine.mytrain.business.domain.DailyTrainExample;
@@ -34,6 +35,8 @@ public class DailyTrainService {
     @Resource
     private TrainService trainService;
 
+    @Resource
+    private DailyTrainStationService dailyTrainStationService;
 
     public void save(DailyTrainSaveReq req) {
         DateTime now = DateTime.now();
@@ -106,21 +109,25 @@ public class DailyTrainService {
 
     private void genDailyTrain(Date date, Train train){
         DateTime now = DateTime.now();
-
-        //删除该车次已有的数据
+        logger.info("生成日期[{}]车次[{}]的车站信息开始", DateUtil.formatDate(date), train.getCode());
+        // 删除该车次已有的数据
         DailyTrainExample dailyTrainExample = new DailyTrainExample();
         dailyTrainExample.createCriteria()
                 .andDateEqualTo(date)
                 .andCodeEqualTo(train.getCode());
         dailyTrainMapper.deleteByExample(dailyTrainExample);
 
-        //生成该车次的数据
+        // 生成该车次的数据
         DailyTrain dailyTrain = BeanUtil.copyProperties(train, DailyTrain.class);
         dailyTrain.setId(SnowUtil.getSnowflakeNextId());
         dailyTrain.setCreateTime(now);
         dailyTrain.setUpdateTime(now);
         dailyTrain.setDate(date);
         dailyTrainMapper.insert(dailyTrain);
+
+        // 生成该车次的车站的数据
+        dailyTrainStationService.genDaily(date, train.getCode());
+        logger.info("生成日期[{}]车次[{}]的车站信息结束", DateUtil.formatDate(date), train.getCode());
     }
 
 }
