@@ -42,7 +42,7 @@
         <a-input v-model:value="dailyTrainStation.name" />
       </a-form-item>
       <a-form-item label="站名拼音">
-        <train-select-view v-model="dailyTrainStation.trainCode"></train-select-view>
+        <a-input v-model:value="dailyTrainStation.namePinyin" disabled/>
       </a-form-item>
       <a-form-item label="进站时间">
         <a-time-picker v-model:value="dailyTrainStation.inTime" valueFormat="HH:mm:ss" placeholder="请选择时间" />
@@ -51,7 +51,7 @@
         <a-time-picker v-model:value="dailyTrainStation.outTime" valueFormat="HH:mm:ss" placeholder="请选择时间" />
       </a-form-item>
       <a-form-item label="停站时长">
-        <train-select-view v-model="dailyTrainStation.trainCode"></train-select-view>
+        <a-time-picker v-model:value="dailyTrainStation.stopTime" valueFormat="HH:mm:ss" placeholder="请选择时间" disabled/>
       </a-form-item>
       <a-form-item label="里程（公里）">
         <a-input v-model:value="dailyTrainStation.km" />
@@ -61,10 +61,12 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, onMounted, watch } from 'vue';
 import {notification} from "ant-design-vue";
 import axios from "axios";
 import TrainSelectView from "@/components/train-select.vue";
+import {pinyin} from "pinyin-pro";
+import dayjs from "dayjs";
 
 export default defineComponent({
   name: "daily-train-station-view",
