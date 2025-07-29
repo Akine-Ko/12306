@@ -15,21 +15,23 @@ public class ServerGenerator {
     static boolean readOnly = false;
     static String vuePath = "admin/src/views/main/";
     static String serverPath = "[module]/src/main/java/com/akine/mytrain/[module]/";
-    static String pomPath = "generator\\pom.xml";
+    static String pomPath = "generator/pom.xml";
     static String module = "";
-    static {
-        new File(serverPath).mkdirs();
-    }
+    // static {
+    //     new File(serverPath).mkdirs();
+    // }
 
     public static void main(String[] args) throws Exception {
-
-        //获取mybatis-generator
+        // 获取mybatis-generator
         String generatorPath = getGeneratorPath();
-        System.out.println("module:" + module);
-        serverPath = serverPath.replace("[module]", module);
+        // 比如generator-config-member.xml，得到module = member
         module = generatorPath.replace("src/main/resources/generator-config-", "").replace(".xml", "");
+        System.out.println("module: " + module);
+        serverPath = serverPath.replace("[module]", module);
+        new File(serverPath).mkdirs();
+        System.out.println("servicePath: " + serverPath);
 
-        //读取table节点
+        // 读取table节点
         Document document = new SAXReader().read("generator/" + generatorPath);
         Node table = document.selectSingleNode("//table");
         System.out.println(table);
@@ -37,44 +39,47 @@ public class ServerGenerator {
         Node domainObjectName = table.selectSingleNode("@domainObjectName");
         System.out.println(tableName.getText() + "/" + domainObjectName.getText());
 
-        //为DBUtil设置数据源
+        // 为DBUtil设置数据源
         Node connectionURL = document.selectSingleNode("//@connectionURL");
         Node userId = document.selectSingleNode("//@userId");
         Node password = document.selectSingleNode("//@password");
-        System.out.println("url:" + connectionURL.getText());
-        System.out.println("user:" + userId.getText());
-        System.out.println("password:" + password.getText());
+        System.out.println("url: " + connectionURL.getText());
+        System.out.println("user: " + userId.getText());
+        System.out.println("password: " + password.getText());
         DBUtil.url = connectionURL.getText();
         DBUtil.user = userId.getText();
         DBUtil.password = password.getText();
 
-
+        // 示例：表名 jiawa_test
+        // Domain = JiawaTest
         String Domain = domainObjectName.getText();
+        // domain = jiawaTest
         String domain = Domain.substring(0, 1).toLowerCase() + Domain.substring(1);
-        //给url用
+        // do_main = jiawa-test
         String do_main = tableName.getText().replaceAll("_", "-");
-
+        // 表中文名
         String tableNameCn = DBUtil.getTableComment(tableName.getText());
         List<Field> fieldList = DBUtil.getColumnByTableName(tableName.getText());
         Set<String> typeSet = getJavaTypes(fieldList);
 
-        //组装参数
+        // 组装参数
         Map<String, Object> param = new HashMap<>();
+        param.put("module", module);
         param.put("Domain", Domain);
         param.put("domain", domain);
         param.put("do_main", do_main);
         param.put("tableNameCn", tableNameCn);
-        param.put("typeSet", typeSet);
         param.put("fieldList", fieldList);
-        param.put("module", module);
+        param.put("typeSet", typeSet);
         param.put("readOnly", readOnly);
-        System.out.println("组装参数:" + param);
+        System.out.println("组装参数：" + param);
 
         gen(Domain, param, "service", "service");
         gen(Domain, param, "controller/admin", "adminController");
         gen(Domain, param, "req", "saveReq");
         gen(Domain, param, "req", "queryReq");
         gen(Domain, param, "resp", "queryResp");
+
         genVue(do_main, param);
     }
 
@@ -84,21 +89,21 @@ public class ServerGenerator {
         new File(toPath).mkdirs();
         String Target = target.substring(0, 1).toUpperCase() + target.substring(1);
         String fileName = toPath + Domain + Target + ".java";
-        System.out.println("开始生成:" + fileName);
+        System.out.println("开始生成：" + fileName);
         FreeMarkerUtil.generator(fileName, param);
     }
 
     private static void genVue(String do_main, Map<String, Object> param) throws Exception {
         FreeMarkerUtil.initConfig("vue.ftl");
         new File(vuePath + module).mkdirs();
-        String fileName = vuePath  + module + "/" + do_main + ".vue";
+        String fileName = vuePath + module + "/" + do_main + ".vue";
         System.out.println("开始生成：" + fileName);
         FreeMarkerUtil.generator(fileName, param);
     }
 
     private static String getGeneratorPath() throws DocumentException {
         SAXReader saxReader = new SAXReader();
-        Map<String,String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<String, String>();
         map.put("pom", "http://maven.apache.org/POM/4.0.0");
         saxReader.getDocumentFactory().setXPathNamespaceURIs(map);
         Document document = saxReader.read(pomPath);
@@ -110,14 +115,12 @@ public class ServerGenerator {
     /**
      * 获取所有的Java类型，使用Set去重
      */
-    private static Set<String> getJavaTypes(List<Field> fieldList){
-
+    private static Set<String> getJavaTypes(List<Field> fieldList) {
         Set<String> set = new HashSet<>();
-        for (Field field : fieldList) {
+        for (int i = 0; i < fieldList.size(); i++) {
+            Field field = fieldList.get(i);
             set.add(field.getJavaType());
         }
-
         return set;
     }
-
 }
