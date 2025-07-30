@@ -27,7 +27,7 @@ import java.util.List;
 @Service
 public class DailyTrainService {
 
-    private static Logger logger = LoggerFactory.getLogger(DailyTrainService.class);
+    private static final Logger logger = LoggerFactory.getLogger(DailyTrainService.class);
 
     @Resource
     private DailyTrainMapper dailyTrainMapper;
@@ -37,6 +37,9 @@ public class DailyTrainService {
 
     @Resource
     private DailyTrainStationService dailyTrainStationService;
+
+    @Resource
+    private DailyTrainCarriageService dailyTrainCarriageService;
 
     public void save(DailyTrainSaveReq req) {
         DateTime now = DateTime.now();
@@ -127,6 +130,10 @@ public class DailyTrainService {
 
         // 生成该车次的车站的数据
         dailyTrainStationService.genDaily(date, train.getCode());
+
+        // 生成该车次的车厢的数据
+        dailyTrainCarriageService.genDaily(date, train.getCode());
+
         logger.info("生成日期[{}]车次[{}]的车站信息结束", DateUtil.formatDate(date), train.getCode());
     }
 
