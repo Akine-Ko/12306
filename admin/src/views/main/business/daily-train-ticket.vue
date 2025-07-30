@@ -7,8 +7,8 @@
   </p>
   <a-table :columns="columns"
            :dataSource="dailyTrainTickets"
-           :loading="loading"
            :pagination="pagination"
+           :loading="loading"
            @change="handleTableChange">
     <template #bodyCell="{ column, record }">
       <template v-if="column.dataIndex === 'operation'">

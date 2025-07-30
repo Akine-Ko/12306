@@ -6,7 +6,9 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjUtil;
 import cn.hutool.core.util.ObjectUtil;
-import com.akine.mytrain.business.domain.*;
+import com.akine.mytrain.business.domain.DailyTrainCarriage;
+import com.akine.mytrain.business.domain.DailyTrainCarriageExample;
+import com.akine.mytrain.business.domain.TrainCarriage;
 import com.akine.mytrain.business.enums.SeatColEnum;
 import com.akine.mytrain.business.mapper.DailyTrainCarriageMapper;
 import com.akine.mytrain.business.req.DailyTrainCarriageQueryReq;
@@ -20,6 +22,7 @@ import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -88,6 +91,7 @@ public class DailyTrainCarriageService {
         return PageResp;
     }
 
+    @Transactional
     public void genDaily(Date date, String trainCode) {
         logger.info("生成日期[{}]车次[{}]的车厢信息开始", DateUtil.formatDate(date), trainCode);
 

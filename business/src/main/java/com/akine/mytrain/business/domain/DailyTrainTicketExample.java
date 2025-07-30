@@ -17,20 +17,20 @@ public class DailyTrainTicketExample {
         oredCriteria = new ArrayList<>();
     }
 
-    public String getOrderByClause() {
-        return orderByClause;
-    }
-
     public void setOrderByClause(String orderByClause) {
         this.orderByClause = orderByClause;
     }
 
-    public boolean isDistinct() {
-        return distinct;
+    public String getOrderByClause() {
+        return orderByClause;
     }
 
     public void setDistinct(boolean distinct) {
         this.distinct = distinct;
+    }
+
+    public boolean isDistinct() {
+        return distinct;
     }
 
     public List<Criteria> getOredCriteria() {
@@ -559,52 +559,52 @@ public class DailyTrainTicketExample {
             return (Criteria) this;
         }
 
-        public Criteria andStartIndexEqualTo(Byte value) {
+        public Criteria andStartIndexEqualTo(Integer value) {
             addCriterion("start_index =", value, "startIndex");
             return (Criteria) this;
         }
 
-        public Criteria andStartIndexNotEqualTo(Byte value) {
+        public Criteria andStartIndexNotEqualTo(Integer value) {
             addCriterion("start_index <>", value, "startIndex");
             return (Criteria) this;
         }
 
-        public Criteria andStartIndexGreaterThan(Byte value) {
+        public Criteria andStartIndexGreaterThan(Integer value) {
             addCriterion("start_index >", value, "startIndex");
             return (Criteria) this;
         }
 
-        public Criteria andStartIndexGreaterThanOrEqualTo(Byte value) {
+        public Criteria andStartIndexGreaterThanOrEqualTo(Integer value) {
             addCriterion("start_index >=", value, "startIndex");
             return (Criteria) this;
         }
 
-        public Criteria andStartIndexLessThan(Byte value) {
+        public Criteria andStartIndexLessThan(Integer value) {
             addCriterion("start_index <", value, "startIndex");
             return (Criteria) this;
         }
 
-        public Criteria andStartIndexLessThanOrEqualTo(Byte value) {
+        public Criteria andStartIndexLessThanOrEqualTo(Integer value) {
             addCriterion("start_index <=", value, "startIndex");
             return (Criteria) this;
         }
 
-        public Criteria andStartIndexIn(List<Byte> values) {
+        public Criteria andStartIndexIn(List<Integer> values) {
             addCriterion("start_index in", values, "startIndex");
             return (Criteria) this;
         }
 
-        public Criteria andStartIndexNotIn(List<Byte> values) {
+        public Criteria andStartIndexNotIn(List<Integer> values) {
             addCriterion("start_index not in", values, "startIndex");
             return (Criteria) this;
         }
 
-        public Criteria andStartIndexBetween(Byte value1, Byte value2) {
+        public Criteria andStartIndexBetween(Integer value1, Integer value2) {
             addCriterion("start_index between", value1, value2, "startIndex");
             return (Criteria) this;
         }
 
-        public Criteria andStartIndexNotBetween(Byte value1, Byte value2) {
+        public Criteria andStartIndexNotBetween(Integer value1, Integer value2) {
             addCriterion("start_index not between", value1, value2, "startIndex");
             return (Criteria) this;
         }
@@ -819,52 +819,52 @@ public class DailyTrainTicketExample {
             return (Criteria) this;
         }
 
-        public Criteria andEndIndexEqualTo(Byte value) {
+        public Criteria andEndIndexEqualTo(Integer value) {
             addCriterion("end_index =", value, "endIndex");
             return (Criteria) this;
         }
 
-        public Criteria andEndIndexNotEqualTo(Byte value) {
+        public Criteria andEndIndexNotEqualTo(Integer value) {
             addCriterion("end_index <>", value, "endIndex");
             return (Criteria) this;
         }
 
-        public Criteria andEndIndexGreaterThan(Byte value) {
+        public Criteria andEndIndexGreaterThan(Integer value) {
             addCriterion("end_index >", value, "endIndex");
             return (Criteria) this;
         }
 
-        public Criteria andEndIndexGreaterThanOrEqualTo(Byte value) {
+        public Criteria andEndIndexGreaterThanOrEqualTo(Integer value) {
             addCriterion("end_index >=", value, "endIndex");
             return (Criteria) this;
         }
 
-        public Criteria andEndIndexLessThan(Byte value) {
+        public Criteria andEndIndexLessThan(Integer value) {
             addCriterion("end_index <", value, "endIndex");
             return (Criteria) this;
         }
 
-        public Criteria andEndIndexLessThanOrEqualTo(Byte value) {
+        public Criteria andEndIndexLessThanOrEqualTo(Integer value) {
             addCriterion("end_index <=", value, "endIndex");
             return (Criteria) this;
         }
 
-        public Criteria andEndIndexIn(List<Byte> values) {
+        public Criteria andEndIndexIn(List<Integer> values) {
             addCriterion("end_index in", values, "endIndex");
             return (Criteria) this;
         }
 
-        public Criteria andEndIndexNotIn(List<Byte> values) {
+        public Criteria andEndIndexNotIn(List<Integer> values) {
             addCriterion("end_index not in", values, "endIndex");
             return (Criteria) this;
         }
 
-        public Criteria andEndIndexBetween(Byte value1, Byte value2) {
+        public Criteria andEndIndexBetween(Integer value1, Integer value2) {
             addCriterion("end_index between", value1, value2, "endIndex");
             return (Criteria) this;
         }
 
-        public Criteria andEndIndexNotBetween(Byte value1, Byte value2) {
+        public Criteria andEndIndexNotBetween(Integer value1, Integer value2) {
             addCriterion("end_index not between", value1, value2, "endIndex");
             return (Criteria) this;
         }
@@ -1493,6 +1493,38 @@ public class DailyTrainTicketExample {
 
         private String typeHandler;
 
+        public String getCondition() {
+            return condition;
+        }
+
+        public Object getValue() {
+            return value;
+        }
+
+        public Object getSecondValue() {
+            return secondValue;
+        }
+
+        public boolean isNoValue() {
+            return noValue;
+        }
+
+        public boolean isSingleValue() {
+            return singleValue;
+        }
+
+        public boolean isBetweenValue() {
+            return betweenValue;
+        }
+
+        public boolean isListValue() {
+            return listValue;
+        }
+
+        public String getTypeHandler() {
+            return typeHandler;
+        }
+
         protected Criterion(String condition) {
             super();
             this.condition = condition;
@@ -1527,38 +1559,6 @@ public class DailyTrainTicketExample {
 
         protected Criterion(String condition, Object value, Object secondValue) {
             this(condition, value, secondValue, null);
-        }
-
-        public String getCondition() {
-            return condition;
-        }
-
-        public Object getValue() {
-            return value;
-        }
-
-        public Object getSecondValue() {
-            return secondValue;
-        }
-
-        public boolean isNoValue() {
-            return noValue;
-        }
-
-        public boolean isSingleValue() {
-            return singleValue;
-        }
-
-        public boolean isBetweenValue() {
-            return betweenValue;
-        }
-
-        public boolean isListValue() {
-            return listValue;
-        }
-
-        public String getTypeHandler() {
-            return typeHandler;
         }
     }
 }
