@@ -118,7 +118,7 @@ public class DailyTrainService {
 
 
     @Transactional
-    private void genDailyTrain(Date date, Train train){
+    public void genDailyTrain(Date date, Train train){
         DateTime now = DateTime.now();
         logger.info("生成日期[{}]车次[{}]的车站信息开始", DateUtil.formatDate(date), train.getCode());
         // 删除该车次已有的数据
@@ -146,7 +146,7 @@ public class DailyTrainService {
         dailyTrainSeatService.genDaily(date, train.getCode());
 
         // 生成该车次的余票的数据
-        dailyTrainTicketService.genDaily(date, train.getCode());
+        dailyTrainTicketService.genDaily(dailyTrain, date, train.getCode());
 
         logger.info("生成日期[{}]车次[{}]的车站信息结束", DateUtil.formatDate(date), train.getCode());
     }
