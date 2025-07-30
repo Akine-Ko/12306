@@ -10,9 +10,14 @@
   </p>
   <a-table :dataSource="dailyTrains"
            :columns="columns"
-           :pagination="pagination"
+           :loading="loading"
            @change="handleTableChange"
-           :loading="loading">
+           :pagination="{
+              ...pagination,
+              showSizeChanger: true,  // 显示每页条数选择器
+              pageSizeOptions: ['10', '20', '50', '100']  // 可选的每页条数
+  }"
+           showSizeChanger="true">
     <template #bodyCell="{ column, record }">
       <template v-if="column.dataIndex === 'operation'">
         <a-space>
@@ -70,8 +75,8 @@
       </a-form-item>
     </a-form>
   </a-modal>
-  <a-modal v-model:visible="genDailyVisible" cancel-text="取消" ok-text="确认"
-           title="生成车次" @ok="handleGenDailyOk">
+  <a-modal v-model:visible="genDailyVisible" :confirm-loading="genDailyLoading" cancel-text="取消"
+           ok-text="确认" title="生成车次" @ok="handleGenDailyOk">
     <a-form :label-col="{span: 4}" :model="genDaily" :wrapper-col="{ span: 20 }">
       <a-form-item label="日期">
         <a-date-picker v-model:value="genDaily.date" placeholder="请选择日期"/>
@@ -124,7 +129,7 @@ export default defineComponent({
       date: null
     });
     const genDailyVisible = ref(false);
-
+    const genDailyLoading = ref(false);
     const columns = [
     {
       title: '日期',
@@ -248,7 +253,6 @@ export default defineComponent({
     };
 
     const handleTableChange = (pagination) => {
-      // console.log("看看自带的分页参数都有啥：" + pagination);
       handleQuery({
         page: pagination.current,
         size: pagination.pageSize
@@ -268,7 +272,9 @@ export default defineComponent({
 
     const handleGenDailyOk = () => {
       let date = dayjs(genDaily.value.date).format("YYYY-MM-DD");
+      genDailyLoading.value = true;
       axios.get("/business/admin/daily-train/gen-daily/" + date).then((response) => {
+        genDailyLoading.value = false;
         let data = response.data;
         if (data.success) {
           notification.success({description: "生成成功！"});
@@ -309,7 +315,8 @@ export default defineComponent({
       genDaily,
       genDailyVisible,
       handleGenDailyOk,
-      onClickGenDaily
+      onClickGenDaily,
+      genDailyLoading
     };
   },
 });
