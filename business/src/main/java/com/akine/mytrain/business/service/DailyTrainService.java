@@ -41,6 +41,9 @@ public class DailyTrainService {
     @Resource
     private DailyTrainCarriageService dailyTrainCarriageService;
 
+    @Resource
+    private DailyTrainSeatService dailyTrainSeatService;
+
     public void save(DailyTrainSaveReq req) {
         DateTime now = DateTime.now();
         DailyTrain dailyTrain = BeanUtil.copyProperties(req, DailyTrain.class);
@@ -133,6 +136,9 @@ public class DailyTrainService {
 
         // 生成该车次的车厢的数据
         dailyTrainCarriageService.genDaily(date, train.getCode());
+
+        // 生成该车次的座位的数据
+        dailyTrainSeatService.genDaily(date, train.getCode());
 
         logger.info("生成日期[{}]车次[{}]的车站信息结束", DateUtil.formatDate(date), train.getCode());
     }

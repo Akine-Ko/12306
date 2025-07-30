@@ -91,22 +91,22 @@ public class DailyTrainCarriageService {
     public void genDaily(Date date, String trainCode) {
         logger.info("生成日期[{}]车次[{}]的车厢信息开始", DateUtil.formatDate(date), trainCode);
 
-        //删除某日某车次的车站数据
+        //删除某日某车次的车厢数据
         DailyTrainCarriageExample dailyTrainCarriageExample = new DailyTrainCarriageExample();
         dailyTrainCarriageExample.createCriteria()
                 .andDateEqualTo(date)
                 .andTrainCodeEqualTo(trainCode);
         dailyTrainCarriageMapper.deleteByExample(dailyTrainCarriageExample);
 
-        //查出某车次的所有的车站信息
-        List<TrainCarriage> stationList = trainCarriageService.selectByTrainCode(trainCode);
+        //查出某车次的所有车厢信息
+        List<TrainCarriage> carriageList = trainCarriageService.selectByTrainCode(trainCode);
 
-        if (CollUtil.isEmpty(stationList)) {
-            logger.info("该车次没有车厢基础数据，生成该车次的车站信息结束");
+        if (CollUtil.isEmpty(carriageList)) {
+            logger.info("该车次没有车厢基础数据，生成该车次的车厢信息结束");
             return;
         }
 
-        for (TrainCarriage trainCarriage : stationList) {
+        for (TrainCarriage trainCarriage : carriageList) {
             DateTime now = DateTime.now();
             //生成该车次的数据
             DailyTrainCarriage dailyTrainCarriage = BeanUtil.copyProperties(trainCarriage, DailyTrainCarriage.class);
@@ -117,7 +117,7 @@ public class DailyTrainCarriageService {
             dailyTrainCarriageMapper.insert(dailyTrainCarriage);
         }
 
-        logger.info("生成日期[{}]车次[{}]的车站信息结束", DateUtil.formatDate(date), trainCode);
+        logger.info("生成日期[{}]车次[{}]的车厢信息结束", DateUtil.formatDate(date), trainCode);
     }
 
     public void delete(Long id) {
