@@ -1,10 +1,9 @@
 package com.akine.mytrain.business.controller.admin;
 
-import com.akine.mytrain.common.context.LoginMemberContext;
 import com.akine.mytrain.common.resp.CommonResp;
 import com.akine.mytrain.common.resp.PageResp;
 import com.akine.mytrain.business.req.ConfirmOrderQueryReq;
-import com.akine.mytrain.business.req.ConfirmOrderSaveReq;
+import com.akine.mytrain.business.req.ConfirmOrderDoReq;
 import com.akine.mytrain.business.resp.ConfirmOrderQueryResp;
 import com.akine.mytrain.business.service.ConfirmOrderService;
 import jakarta.annotation.Resource;
@@ -19,7 +18,7 @@ public class ConfirmOrderAdminController {
     private ConfirmOrderService confirmOrderService;
 
     @PostMapping("/save")
-    public CommonResp<Object> save(@Valid @RequestBody ConfirmOrderSaveReq req) {
+    public CommonResp<Object> save(@Valid @RequestBody ConfirmOrderDoReq req) {
         confirmOrderService.save(req);
         return new CommonResp<>();
     }

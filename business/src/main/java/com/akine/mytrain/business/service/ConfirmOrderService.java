@@ -9,7 +9,7 @@ import com.akine.mytrain.business.domain.ConfirmOrder;
 import com.akine.mytrain.business.domain.ConfirmOrderExample;
 import com.akine.mytrain.business.mapper.ConfirmOrderMapper;
 import com.akine.mytrain.business.req.ConfirmOrderQueryReq;
-import com.akine.mytrain.business.req.ConfirmOrderSaveReq;
+import com.akine.mytrain.business.req.ConfirmOrderDoReq;
 import com.akine.mytrain.business.resp.ConfirmOrderQueryResp;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -28,7 +28,7 @@ public class ConfirmOrderService {
     @Resource
     private ConfirmOrderMapper confirmOrderMapper;
 
-    public void save(ConfirmOrderSaveReq req) {
+    public void save(ConfirmOrderDoReq req) {
         DateTime now = DateTime.now();
         ConfirmOrder confirmOrder = BeanUtil.copyProperties(req, ConfirmOrder.class);
         if(ObjectUtil.isNull(confirmOrder.getId())){
@@ -41,7 +41,6 @@ public class ConfirmOrderService {
             confirmOrder.setUpdateTime(now);
             confirmOrderMapper.updateByPrimaryKey(confirmOrder);
         }
-
     }
 
     public PageResp<ConfirmOrderQueryResp> queryList(ConfirmOrderQueryReq req) {
@@ -70,6 +69,28 @@ public class ConfirmOrderService {
 
     public void delete(Long id) {
         confirmOrderMapper.deleteByPrimaryKey(id);
+    }
+
+
+    public void doConfirm(ConfirmOrderDoReq req) {
+        // 保存确认订单表，状态初始
+
+        // 查出余票记录，获取真实库存
+
+        // 扣减余票数量，判断余票是否足够
+
+        // 选座
+
+            // 一个车厢一个车厢的获取座位数据
+
+            // 挑选符合条件的座位，如果这个车厢不满足，则进入下个车厢(多个选座应该在同一个车厢)
+
+        // 选中座位后事务处理:
+
+            // 座位表修改售卖情况sell
+            // 余票详情表修改余票
+            // 为会员增加购票记录
+            // 更新确认订单为成功
     }
 
 }
