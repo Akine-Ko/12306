@@ -18,14 +18,19 @@
   </div>
 
   <a-divider></a-divider>
-  {{passengers}}
+  <b>勾选要购票的乘客：</b>&nbsp;
+  <a-checkbox-group v-model:value="passengerChecks" :options="passengerOptions" />
+  <br/>
+  选中的乘客：{{passengerChecks}}
+  <br/>
+  购票列表：{{tickets}}
 
 </template>
 
 
 <script>
 
-import {defineComponent, onMounted, ref} from 'vue';
+import {defineComponent, onMounted, ref, watch} from 'vue';
 import axios from "axios";
 import {notification} from "ant-design-vue";
 
@@ -34,6 +39,8 @@ export default defineComponent({
   name: "order-view",
   setup() {
     const passengers = ref([]);
+    const passengerOptions = ref([]);
+    const passengerChecks = ref([]);
     const dailyTrainTicket = SessionStorage.get(SESSION_ORDER) || {};
     console.log("下单的车次信息", dailyTrainTicket);
 
@@ -62,12 +69,42 @@ export default defineComponent({
     }
     console.log("本车次提供的座位：", seatTypes)
 
+// 购票列表，用于界面展示，并传递到后端接口，用来描述：哪个乘客购买什么座位的票
+    // {
+    //   passengerId: 123,
+    //   passengerType: "1",
+    //   passengerName: "张三",
+    //   passengerIdCard: "12323132132",
+    //   seatTypeCode: "1"
+    // }
+    const tickets = ref([]);
+
+    // 勾选或去掉某个乘客时，在购票列表中加上或去掉一张表
+    watch(() => passengerChecks.value, (newVal, oldVal)=>{
+      console.log("勾选乘客发生变化", newVal, oldVal)
+      // 每次有变化时，把购票列表清空，重新构造列表
+      tickets.value = [];
+      passengerChecks.value.forEach((item) => tickets.value.push({
+        passengerId: item.id,
+        passengerType: item.type,
+        seatTypeCode: seatTypes[0].code,
+        passengerName: item.name,
+        passengerIdCard: item.idCard
+      }))
+    }, {immediate: true});
+
+
     const handleQueryPassenger = () => {
       axios.get("/member/passenger/query-mine").then((response) => {
         let data = response.data;
         if (data.success) {
           passengers.value = data.content;
-        } else {
+          passengers.value.forEach((item) => passengerOptions.value.push({
+            label: item.name,
+            value: item
+          }))
+        }
+        else {
           notification.error({description: data.message});
         }
       });
@@ -80,7 +117,10 @@ export default defineComponent({
     return {
       passengers,
       dailyTrainTicket,
-      seatTypes
+      seatTypes,
+      passengerOptions,
+      passengerChecks,
+      tickets
     };
   },
 });
