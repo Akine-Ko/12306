@@ -96,6 +96,7 @@
         </div>
         <div style="color: #999999">提示：您可以选择{{tickets.length}}个座位</div>
       </div>
+
       <br/>
       最终购票：{{tickets}}
       最终选座：{{chooseSeatObj}}
