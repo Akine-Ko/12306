@@ -6,10 +6,7 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
-import com.akine.mytrain.business.domain.DailyTrainSeat;
-import com.akine.mytrain.business.domain.DailyTrainSeatExample;
-import com.akine.mytrain.business.domain.TrainSeat;
-import com.akine.mytrain.business.domain.TrainStation;
+import com.akine.mytrain.business.domain.*;
 import com.akine.mytrain.business.mapper.DailyTrainSeatMapper;
 import com.akine.mytrain.business.req.DailyTrainSeatQueryReq;
 import com.akine.mytrain.business.req.DailyTrainSeatSaveReq;
@@ -144,5 +141,15 @@ public class DailyTrainSeatService {
         }
 
         return (int)l;
+    }
+
+
+    public List<DailyTrainSeat> selectByCarriage(Date date, String trainCode, Integer carriageIndex){
+        DailyTrainSeatExample example = new DailyTrainSeatExample();
+        example.createCriteria()
+                .andDateEqualTo(date)
+                .andTrainCodeEqualTo(trainCode)
+                .andCarriageIndexEqualTo(carriageIndex);
+        return dailyTrainSeatMapper.selectByExample(example);
     }
 }
