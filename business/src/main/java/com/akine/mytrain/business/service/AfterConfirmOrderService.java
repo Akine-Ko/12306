@@ -1,8 +1,11 @@
 package com.akine.mytrain.business.service;
 
+import com.akine.mytrain.business.domain.ConfirmOrder;
 import com.akine.mytrain.business.domain.DailyTrainSeat;
 import com.akine.mytrain.business.domain.DailyTrainTicket;
+import com.akine.mytrain.business.enums.ConfirmOrderStatusEnum;
 import com.akine.mytrain.business.feign.MemberFeign;
+import com.akine.mytrain.business.mapper.ConfirmOrderMapper;
 import com.akine.mytrain.business.mapper.DailyTrainSeatMapper;
 import com.akine.mytrain.business.mapper.cust.DailyTrainTicketMapperCust;
 import com.akine.mytrain.business.req.ConfirmOrderTicketReq;
@@ -29,9 +32,11 @@ public class AfterConfirmOrderService {
     @Resource
     private DailyTrainTicketMapperCust dailyTrainTicketMapperCust;
 
-
     @Resource
     private MemberFeign memberFeign;
+
+    @Resource
+    private ConfirmOrderMapper confirmOrderMapper;
 
 
     /**
@@ -42,7 +47,7 @@ public class AfterConfirmOrderService {
      * 更新确认订单为成功
      */
     @Transactional
-    public void afterDoConfirm(DailyTrainTicket dailyTrainTicket,  List<DailyTrainSeat> finalSeatList, List<ConfirmOrderTicketReq> tickets) {
+    public void afterDoConfirm(DailyTrainTicket dailyTrainTicket,  List<DailyTrainSeat> finalSeatList, List<ConfirmOrderTicketReq> tickets, ConfirmOrder confirmOrder) {
         for(int j = 0; j < finalSeatList.size(); j++){
             DailyTrainSeat dailyTrainSeat = finalSeatList.get(j);
             DailyTrainSeat seatForUpdate = new DailyTrainSeat();
@@ -109,6 +114,13 @@ public class AfterConfirmOrderService {
             CommonResp<Object> commonResp = memberFeign.save(memberTicketReq);
             logger.info("调用member接口，返回：{}", commonResp);
 
+
+            // 更新订单状态为成功
+            ConfirmOrder confirmOrderForUpdate = new ConfirmOrder();
+            confirmOrderForUpdate.setId(confirmOrder.getId());
+            confirmOrderForUpdate.setUpdateTime(new Date());
+            confirmOrderForUpdate.setStatus(ConfirmOrderStatusEnum.SUCCESS.getCode());
+            confirmOrderMapper.updateByPrimaryKeySelective(confirmOrderForUpdate);
         }
 
     }
