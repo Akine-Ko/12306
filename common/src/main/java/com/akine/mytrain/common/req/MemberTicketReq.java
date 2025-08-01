@@ -1,4 +1,4 @@
-package com.akine.mytrain.member.req;
+package com.akine.mytrain.common.req;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;

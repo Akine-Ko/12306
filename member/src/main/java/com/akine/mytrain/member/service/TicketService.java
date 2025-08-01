@@ -7,7 +7,7 @@ import com.akine.mytrain.common.util.SnowUtil;
 import com.akine.mytrain.member.domain.Ticket;
 import com.akine.mytrain.member.domain.TicketExample;
 import com.akine.mytrain.member.mapper.TicketMapper;
-import com.akine.mytrain.member.req.MemberTicketReq;
+import com.akine.mytrain.common.req.MemberTicketReq;
 import com.akine.mytrain.member.req.TicketQueryReq;
 import com.akine.mytrain.member.resp.TicketQueryResp;
 import com.github.pagehelper.PageHelper;

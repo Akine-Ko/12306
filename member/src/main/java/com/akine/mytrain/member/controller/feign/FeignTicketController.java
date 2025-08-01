@@ -1,7 +1,7 @@
 package com.akine.mytrain.member.controller.feign;
 
 import com.akine.mytrain.common.resp.CommonResp;
-import com.akine.mytrain.member.req.MemberTicketReq;
+import com.akine.mytrain.common.req.MemberTicketReq;
 import com.akine.mytrain.member.service.TicketService;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
