@@ -2,14 +2,13 @@ package com.akine.mytrain.member.service;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
-import cn.hutool.core.util.ObjectUtil;
 import com.akine.mytrain.common.resp.PageResp;
 import com.akine.mytrain.common.util.SnowUtil;
 import com.akine.mytrain.member.domain.Ticket;
 import com.akine.mytrain.member.domain.TicketExample;
 import com.akine.mytrain.member.mapper.TicketMapper;
+import com.akine.mytrain.member.req.MemberTicketReq;
 import com.akine.mytrain.member.req.TicketQueryReq;
-import com.akine.mytrain.member.req.TicketSaveReq;
 import com.akine.mytrain.member.resp.TicketQueryResp;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -28,20 +27,18 @@ public class TicketService {
     @Resource
     private TicketMapper ticketMapper;
 
-    public void save(TicketSaveReq req) {
+    /**
+     * 会员购买车票后新增保存
+     *
+     * @param req
+     */
+    public void save(MemberTicketReq req) throws Exception {
         DateTime now = DateTime.now();
         Ticket ticket = BeanUtil.copyProperties(req, Ticket.class);
-        if(ObjectUtil.isNull(ticket.getId())){
-            ticket.setId(SnowUtil.getSnowflakeNextId());
-            ticket.setCreateTime(now);
-            ticket.setUpdateTime(now);
-            ticketMapper.insert(ticket);
-        }
-        else{
-            ticket.setUpdateTime(now);
-            ticketMapper.updateByPrimaryKey(ticket);
-        }
-
+        ticket.setId(SnowUtil.getSnowflakeNextId());
+        ticket.setCreateTime(now);
+        ticket.setUpdateTime(now);
+        ticketMapper.insert(ticket);
     }
 
     public PageResp<TicketQueryResp> queryList(TicketQueryReq req) {
