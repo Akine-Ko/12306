@@ -2,6 +2,7 @@ package com.akine.mytrain.member.service;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
+import cn.hutool.core.util.ObjUtil;
 import com.akine.mytrain.common.resp.PageResp;
 import com.akine.mytrain.common.util.SnowUtil;
 import com.akine.mytrain.member.domain.Ticket;
@@ -45,6 +46,10 @@ public class TicketService {
         TicketExample ticketExample = new TicketExample();
         ticketExample.setOrderByClause("id desc");
         TicketExample.Criteria criteria = ticketExample.createCriteria();
+
+        if (ObjUtil.isNotNull(req.getMemberId())) {
+            criteria.andMemberIdEqualTo(req.getMemberId());
+        }
 
         logger.info("查询页码:{}", req.getPage());
         logger.info("每页条数:{}", req.getSize());
