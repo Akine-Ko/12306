@@ -20,13 +20,14 @@ import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 public class TrainService {
 
-    private static Logger logger = LoggerFactory.getLogger(TrainService.class);
+    private static final Logger logger = LoggerFactory.getLogger(TrainService.class);
 
     @Resource
     private TrainMapper trainMapper;
@@ -91,8 +92,11 @@ public class TrainService {
     }
 
 
+    @Transactional
     public List<TrainQueryResp> queryAll() {
         List<Train> trainList = selectAll();
+//        logger.info("再查一次");
+//        trainList = selectAll();
         return BeanUtil.copyToList(trainList, TrainQueryResp.class);
     }
 
