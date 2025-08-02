@@ -1,21 +1,18 @@
 package com.akine.mytrain.member.controller;
 
-import com.akine.mytrain.common.resp.CommonResp;
-import com.akine.mytrain.member.service.MemberService;
-import jakarta.annotation.Resource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class TestController {
 
-    @Resource
-    private MemberService memberService;
+
+    @Value("${test.nacos}")
+    private String testNacos;
 
     @GetMapping("/hello")
-    public CommonResp<String> hello(){
-        CommonResp<String> commonResp = new CommonResp<>();
-        commonResp.setContent("hello world");
-        return commonResp;
+    public String hello(){
+        return String.format("Hello %s",testNacos);
     }
 }
