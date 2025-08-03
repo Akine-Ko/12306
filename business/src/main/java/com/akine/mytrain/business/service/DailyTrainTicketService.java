@@ -64,7 +64,7 @@ public class DailyTrainTicketService {
     }
 
 
-    @Cacheput(value = "DailyTrainTicketService.queryList")
+    @CachePut(value = "DailyTrainTicketService.queryList")
     public PageResp<DailyTrainTicketQueryResp> queryList(DailyTrainTicketQueryReq req) {
         DailyTrainTicketExample dailyTrainTicketExample = new DailyTrainTicketExample();
         dailyTrainTicketExample.setOrderByClause("id desc");

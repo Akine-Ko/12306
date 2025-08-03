@@ -19,6 +19,7 @@ public class GatewayMemberFilter implements GlobalFilter, Ordered {
         String path = exchange.getRequest().getURI().getPath();
 
         if (path.contains("/admin")
+                || path.contains("/redis")
                 || path.contains("/hello")
                 || path.contains("/member/member/login")
                 || path.contains("/member/member/send-code")){
