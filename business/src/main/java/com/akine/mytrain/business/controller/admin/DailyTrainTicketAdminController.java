@@ -1,12 +1,11 @@
 package com.akine.mytrain.business.controller.admin;
 
-import com.akine.mytrain.common.context.LoginMemberContext;
-import com.akine.mytrain.common.resp.CommonResp;
-import com.akine.mytrain.common.resp.PageResp;
 import com.akine.mytrain.business.req.DailyTrainTicketQueryReq;
 import com.akine.mytrain.business.req.DailyTrainTicketSaveReq;
 import com.akine.mytrain.business.resp.DailyTrainTicketQueryResp;
 import com.akine.mytrain.business.service.DailyTrainTicketService;
+import com.akine.mytrain.common.resp.CommonResp;
+import com.akine.mytrain.common.resp.PageResp;
 import jakarta.annotation.Resource;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +33,12 @@ public class DailyTrainTicketAdminController {
     public CommonResp<Object> delete(@PathVariable Long id) {
         dailyTrainTicketService.delete(id);
         return new CommonResp<>();
+    }
+
+    @GetMapping("/query-list2")
+    public CommonResp<PageResp<DailyTrainTicketQueryResp>> queryList2(@Valid DailyTrainTicketQueryReq req) {
+        PageResp<DailyTrainTicketQueryResp> list = dailyTrainTicketService.queryList2(req);
+        return new CommonResp<>(list);
     }
 
 }
