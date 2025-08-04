@@ -13,6 +13,7 @@ import com.akine.mytrain.member.req.TicketQueryReq;
 import com.akine.mytrain.member.resp.TicketQueryResp;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import io.seata.core.context.RootContext;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +24,7 @@ import java.util.List;
 @Service
 public class TicketService {
 
-    private static Logger logger = LoggerFactory.getLogger(TicketService.class);
+    private static final Logger logger = LoggerFactory.getLogger(TicketService.class);
 
     @Resource
     private TicketMapper ticketMapper;
@@ -34,6 +35,7 @@ public class TicketService {
      * @param req
      */
     public void save(MemberTicketReq req) throws Exception {
+        logger.info("seata全局事务id{}", RootContext.getXID());
         DateTime now = DateTime.now();
         Ticket ticket = BeanUtil.copyProperties(req, Ticket.class);
         ticket.setId(SnowUtil.getSnowflakeNextId());
