@@ -1,0 +1,10 @@
+GET http://localhost:8000/business/confirm-order/do
+Accept: application/json
+
+{
+    "dailyTrainTickerId":
+}
+
+###
+
+

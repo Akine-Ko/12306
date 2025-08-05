@@ -2,5 +2,20 @@ GET http://localhost:8002/business/admin/daily-train-ticket/query-list?page=1&si
     &trainCode=G1&start=巢湖&end=南昌
 Accept: application/json
 
+token:eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYmYiOjE3NTQzMTE0NTgsIm1vYmlsZSI6IjEzMDAwMDAwMDAwIiwiaWQiOjE5NDY0MDg0Mjg4NjM4ODUzMTIsImV4cCI6MTc1NDM5Nzg1OCwiaWF0IjoxNzU0MzExNDU4fQ.2GRExLQOpOgLlCY7iM0Obmo_q28i_TbazBfZrul5DtE
+{
+    "dailyTrainTicketId":1951194081539526656,
+    "date":1753804800000,
+    "end":"南昌",
+    "start":"巢湖",
+    "tickets":[{
+           "passengerId":1950835415284060160,
+           "passengerIdCard":"321123",
+           "passengerName":"Pocky",
+           "passengerType":"1",
+           "seatTypeCode":"1"
+                }],
+    "trainCode":"G1"
+}
 ###
 
