@@ -3,17 +3,16 @@ package com.akine.mytrain.member.service;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.ObjUtil;
+import com.akine.mytrain.common.req.MemberTicketReq;
 import com.akine.mytrain.common.resp.PageResp;
 import com.akine.mytrain.common.util.SnowUtil;
 import com.akine.mytrain.member.domain.Ticket;
 import com.akine.mytrain.member.domain.TicketExample;
 import com.akine.mytrain.member.mapper.TicketMapper;
-import com.akine.mytrain.common.req.MemberTicketReq;
 import com.akine.mytrain.member.req.TicketQueryReq;
 import com.akine.mytrain.member.resp.TicketQueryResp;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import io.seata.core.context.RootContext;
 import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +34,7 @@ public class TicketService {
      * @param req
      */
     public void save(MemberTicketReq req) throws Exception {
-        logger.info("seata全局事务id{}", RootContext.getXID());
+//        logger.info("seata全局事务id{}", RootContext.getXID());
         DateTime now = DateTime.now();
         Ticket ticket = BeanUtil.copyProperties(req, Ticket.class);
         ticket.setId(SnowUtil.getSnowflakeNextId());

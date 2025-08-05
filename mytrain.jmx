@@ -92,7 +92,7 @@
         <hashTree/>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组">
-        <intProp name="ThreadGroup.num_threads">250</intProp>
+        <intProp name="ThreadGroup.num_threads">100</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
@@ -116,16 +116,16 @@
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{&#xd;
-    &quot;dailyTrainTicketId&quot;:1951194081539526656,&#xd;
-    &quot;date&quot;:1753804800000,&#xd;
-    &quot;end&quot;:&quot;南昌&quot;,&#xd;
+    &quot;dailyTrainTicketId&quot;:1952648049058779136,&#xd;
+    &quot;date&quot;:1754323200000,&#xd;
+    &quot;end&quot;:&quot;合肥&quot;,&#xd;
     &quot;start&quot;:&quot;巢湖&quot;,&#xd;
     &quot;tickets&quot;:[{&#xd;
            &quot;passengerId&quot;:1950835415284060160,&#xd;
            &quot;passengerIdCard&quot;:&quot;321123&quot;,&#xd;
            &quot;passengerName&quot;:&quot;Pocky&quot;,&#xd;
            &quot;passengerType&quot;:&quot;1&quot;,&#xd;
-           &quot;seatTypeCode&quot;:&quot;2&quot;&#xd;
+           &quot;seatTypeCode&quot;:&quot;1&quot;&#xd;
                 }],&#xd;
     &quot;trainCode&quot;:&quot;G1&quot;&#xd;
 }</stringProp>
@@ -173,7 +173,7 @@
           </ResultCollector>
           <hashTree/>
         </hashTree>
-        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP信息头管理器">
+        <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP信息头管理器" enabled="true">
           <collectionProp name="HeaderManager.headers">
             <elementProp name="" elementType="Header">
               <stringProp name="Header.name">Content-Type</stringProp>
