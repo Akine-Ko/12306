@@ -31,9 +31,9 @@ public class BusinessApplication {
         log.info("启动成功！");
         log.info("地址:\thttp://127.0.0.1:{}{}/hello", env.getProperty("server.port"), env.getProperty("server.servlet.context-path"));
 
-        // 限流规则
-        initFlowRules();
-        log.info("已定义限流规则");
+//        // 限流规则
+//        initFlowRules();
+//        log.info("已定义限流规则");
     }
 
     private static void initFlowRules(){
