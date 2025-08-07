@@ -129,10 +129,14 @@ public class DailyTrainSeatService {
 
     public int countSeat(Date date, String trainCode, String seatType){
         DailyTrainSeatExample dailyTrainSeatExample = new DailyTrainSeatExample();
-        dailyTrainSeatExample.createCriteria()
-                .andDateEqualTo(date)
-                .andTrainCodeEqualTo(trainCode)
-                .andSeatTypeEqualTo(seatType);
+        DailyTrainSeatExample.Criteria criteria = dailyTrainSeatExample.createCriteria();
+
+        criteria.andDateEqualTo(date)
+                .andTrainCodeEqualTo(trainCode);
+
+        if (StrUtil.isNotBlank(seatType)) {
+            criteria.andSeatTypeEqualTo(seatType);
+        }
 
         long l = dailyTrainSeatMapper.countByExample(dailyTrainSeatExample);
 
@@ -143,6 +147,9 @@ public class DailyTrainSeatService {
         return (int)l;
     }
 
+    public int countSeat(Date date, String trainCode) {
+        return countSeat(date, trainCode, null);
+    }
 
     public List<DailyTrainSeat> selectByCarriage(Date date, String trainCode, Integer carriageIndex){
         DailyTrainSeatExample example = new DailyTrainSeatExample();
