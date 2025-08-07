@@ -3,12 +3,14 @@ package com.akine.mytrain.business.service;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.EnumUtil;
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.akine.mytrain.business.domain.*;
 import com.akine.mytrain.business.enums.ConfirmOrderStatusEnum;
+import com.akine.mytrain.business.enums.LockKeyPreEnum;
 import com.akine.mytrain.business.enums.SeatColEnum;
 import com.akine.mytrain.business.enums.SeatTypeEnum;
 import com.akine.mytrain.business.mapper.ConfirmOrderMapper;
@@ -124,7 +126,7 @@ public class ConfirmOrderService {
             throw new BusinessException(BusinessExceptionEnum.CONFIRM_ORDER_SK_TOKEN_FAIL);
         }
 
-        String lockKey = req.getDate() + "-" + req.getTrainCode();
+        String lockKey = LockKeyPreEnum.CONFIRM_ORDER + "-" + DateUtil.formatDate(req.getDate()) + "-" + req.getTrainCode();
 //        Boolean setIfAbsent = redisTemplate.opsForValue().setIfAbsent(lockKey, "1", 5, TimeUnit.SECONDS);
 //        if(setIfAbsent){
 //            logger.info("抢到锁了");
