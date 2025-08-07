@@ -7,6 +7,7 @@ import cn.hutool.core.util.ObjectUtil;
 import com.akine.mytrain.business.domain.SkToken;
 import com.akine.mytrain.business.domain.SkTokenExample;
 import com.akine.mytrain.business.mapper.SkTokenMapper;
+import com.akine.mytrain.business.mapper.cust.SkTokenMapperCust;
 import com.akine.mytrain.business.req.SkTokenQueryReq;
 import com.akine.mytrain.business.req.SkTokenSaveReq;
 import com.akine.mytrain.business.resp.SkTokenQueryResp;
@@ -33,8 +34,12 @@ public class SkTokenService {
 
     @Resource
     private DailyTrainSeatService dailyTrainSeatService;
+
     @Autowired
     private DailyTrainStationService dailyTrainStationService;
+
+    @Resource
+    private SkTokenMapperCust skTokenMapperCust;
 
     public void save(SkTokenSaveReq req) {
         DateTime now = DateTime.now();
@@ -107,4 +112,10 @@ public class SkTokenService {
         skTokenMapper.deleteByPrimaryKey(id);
     }
 
+    public boolean validSkToken(Date date, String trainCode, Long memberId) {
+        logger.info("会员【{}】获取日期【{}】车次【{}】的令牌开始", memberId, DateUtil.formatDate(date), trainCode);
+        // 令牌约等于库存，令牌没有了，就不再卖票，不需要再进入购票主流程去判断库存，判断令牌肯定比判断库存效率高
+        int updateCount = skTokenMapperCust.decrease(date, trainCode);
+        return updateCount > 0;
+    }
 }
