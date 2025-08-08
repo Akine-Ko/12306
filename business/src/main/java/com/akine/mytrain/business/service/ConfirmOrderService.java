@@ -492,4 +492,38 @@ public class ConfirmOrderService {
     }
 
 
+    /**
+     * 查询前面还有几个人在排队
+     * @param id
+     * @return
+     */
+    public Integer queryLineCount(Long id){
+        ConfirmOrder confirmOrder = confirmOrderMapper.selectByPrimaryKey(id);
+        ConfirmOrderStatusEnum statusEnum = EnumUtil.getBy(ConfirmOrderStatusEnum::getCode, confirmOrder.getStatus());
+        int result = switch (statusEnum) {
+            case INIT -> 999; // 需要查表得到实际排队数量
+            case PENDING -> 0; // 排队0
+            case SUCCESS -> -1; //成功
+            case FAILURE -> -2; // 失败
+            case EMPTY -> -3;   // 无票
+            case CANCEL -> -4;  // 取消
+        };
+
+        if(result == 999){
+            ConfirmOrderExample confirmOrderExample = new ConfirmOrderExample();
+            confirmOrderExample.or().andDateEqualTo(confirmOrder.getDate())
+                    .andTrainCodeEqualTo(confirmOrder.getTrainCode())
+                    .andCreateTimeLessThan(confirmOrder.getCreateTime())
+                    .andStatusEqualTo(ConfirmOrderStatusEnum.INIT.getCode());
+            confirmOrderExample.or().andDateEqualTo(confirmOrder.getDate())
+                    .andTrainCodeEqualTo(confirmOrder.getTrainCode())
+                    .andCreateTimeLessThan(confirmOrder.getCreateTime())
+                    .andStatusEqualTo(ConfirmOrderStatusEnum.PENDING.getCode());
+
+            return Math.toIntExact(confirmOrderMapper.countByExample(confirmOrderExample));
+        }
+        else {
+            return result;
+        }
+    }
 }
