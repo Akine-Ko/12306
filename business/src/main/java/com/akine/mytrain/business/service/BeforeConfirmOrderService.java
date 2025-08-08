@@ -2,6 +2,7 @@ package com.akine.mytrain.business.service;
 
 import cn.hutool.core.date.DateUtil;
 import com.akine.mytrain.business.enums.RedisKeyPreEnum;
+import com.akine.mytrain.business.enums.RocketMQTopicEnum;
 import com.akine.mytrain.business.mapper.ConfirmOrderMapper;
 import com.akine.mytrain.business.req.ConfirmOrderDoReq;
 import com.akine.mytrain.common.context.LoginMemberContext;
@@ -9,7 +10,9 @@ import com.akine.mytrain.common.exception.BusinessException;
 import com.akine.mytrain.common.exception.BusinessExceptionEnum;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
+import com.alibaba.fastjson.JSON;
 import jakarta.annotation.Resource;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
@@ -42,6 +45,9 @@ public class BeforeConfirmOrderService {
     @Resource
     private RedissonClient redissonClient;
 
+    @Resource
+    private RocketMQTemplate rocketMQTemplate;
+
 
     @SentinelResource(value = "beforeDoConfirm", blockHandler = "beforeDoConfirmBlock")
     public void beforeDoConfirm(ConfirmOrderDoReq req) throws InterruptedException {
@@ -65,7 +71,10 @@ public class BeforeConfirmOrderService {
             throw new BusinessException(BusinessExceptionEnum.CONFIRM_ORDER_LOCK_FAIL);
         }
 
-        logger.info("准备发送MQ，等待出票");
+        String reqJson = JSON.toJSONString(req);
+        logger.info("排队购票，发送mq开始，消息{}", reqJson);
+        rocketMQTemplate.convertAndSend(RocketMQTopicEnum.CONFIRM_ORDER.getCode(), reqJson);
+        logger.info("排队购票，发送mq结束");
     }
 
 
