@@ -1,25 +1,28 @@
 package com.akine.mytrain.business.service;
 
-import cn.hutool.core.date.DateUtil;
-import com.akine.mytrain.business.enums.RedisKeyPreEnum;
+import cn.hutool.core.date.DateTime;
+import com.akine.mytrain.business.domain.ConfirmOrder;
+import com.akine.mytrain.business.enums.ConfirmOrderStatusEnum;
 import com.akine.mytrain.business.enums.RocketMQTopicEnum;
 import com.akine.mytrain.business.mapper.ConfirmOrderMapper;
 import com.akine.mytrain.business.req.ConfirmOrderDoReq;
+import com.akine.mytrain.business.req.ConfirmOrderTicketReq;
 import com.akine.mytrain.common.context.LoginMemberContext;
 import com.akine.mytrain.common.exception.BusinessException;
 import com.akine.mytrain.common.exception.BusinessExceptionEnum;
+import com.akine.mytrain.common.util.SnowUtil;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.fastjson.JSON;
 import jakarta.annotation.Resource;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
-import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.TimeUnit;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class BeforeConfirmOrderService {
@@ -53,6 +56,7 @@ public class BeforeConfirmOrderService {
 
     @SentinelResource(value = "beforeDoConfirm", blockHandler = "beforeDoConfirmBlock")
     public void beforeDoConfirm(ConfirmOrderDoReq req) throws InterruptedException {
+        req.setMemberId(LoginMemberContext.getId());
         // 校验令牌余量
         boolean validSkToken = skTokenService.validSkToken(req.getDate(), req.getTrainCode(), LoginMemberContext.getId());
         if (validSkToken) {
@@ -62,16 +66,28 @@ public class BeforeConfirmOrderService {
             throw new BusinessException(BusinessExceptionEnum.CONFIRM_ORDER_SK_TOKEN_FAIL);
         }
 
-        String lockKey = RedisKeyPreEnum.CONFIRM_ORDER + "-" + DateUtil.formatDate(req.getDate()) + "-" + req.getTrainCode();
-        RLock lock = redissonClient.getLock(lockKey);
-        boolean tryLock = lock.tryLock(0, TimeUnit.SECONDS);
+        Date date = req.getDate();
+        String trainCode = req.getTrainCode();
+        String start = req.getStart();
+        String end = req.getEnd();
+        List<ConfirmOrderTicketReq> tickets = req.getTickets();
 
-        if (tryLock) {
-            logger.info("恭喜抢到锁了");
-        } else {
-            logger.info("很遗憾，没抢到锁");
-            throw new BusinessException(BusinessExceptionEnum.CONFIRM_ORDER_LOCK_FAIL);
-        }
+        // 保存确认订单表，状态初始
+        DateTime now = DateTime.now();
+        ConfirmOrder confirmOrder = new ConfirmOrder();
+        confirmOrder.setId(SnowUtil.getSnowflakeNextId());
+        confirmOrder.setCreateTime(now);
+        confirmOrder.setUpdateTime(now);
+        confirmOrder.setMemberId(req.getMemberId());
+        confirmOrder.setDate(date);
+        confirmOrder.setTrainCode(trainCode);
+        confirmOrder.setStart(start);
+        confirmOrder.setEnd(end);
+        confirmOrder.setDailyTrainTicketId(req.getDailyTrainTicketId());
+        confirmOrder.setStatus(ConfirmOrderStatusEnum.INIT.getCode());
+        confirmOrder.setTickets(JSON.toJSONString(tickets));
+        confirmOrderMapper.insert(confirmOrder);
+
 
         String reqJson = JSON.toJSONString(req);
         logger.info("排队购票，发送mq开始，消息{}", reqJson);

@@ -1,5 +1,9 @@
 package com.akine.mytrain.business.mq;
 
+import com.akine.mytrain.business.req.ConfirmOrderDoReq;
+import com.akine.mytrain.business.service.ConfirmOrderService;
+import com.alibaba.fastjson.JSON;
+import jakarta.annotation.Resource;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
@@ -10,12 +14,21 @@ import org.springframework.stereotype.Service;
 @Service
 @RocketMQMessageListener(consumerGroup = "default", topic = "CONFIRM_ORDER")
 public class ConfirmOrderConsumer implements RocketMQListener<MessageExt> {
+
     private static final Logger log = LoggerFactory.getLogger(ConfirmOrderConsumer.class);
 
+    @Resource
+    private ConfirmOrderService confirmOrderService;
 
     @Override
     public void onMessage(MessageExt messageExt) {
         byte[] body = messageExt.getBody();
         log.info("ROCKETMQ收到消息:{}", new String(body));
+        ConfirmOrderDoReq req = JSON.parseObject(new String(body), ConfirmOrderDoReq.class);
+        try {
+            confirmOrderService.doConfirm(req);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
