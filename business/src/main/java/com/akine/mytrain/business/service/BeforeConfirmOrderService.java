@@ -2,6 +2,7 @@ package com.akine.mytrain.business.service;
 
 import cn.hutool.core.date.DateTime;
 import com.akine.mytrain.business.domain.ConfirmOrder;
+import com.akine.mytrain.business.dto.ConfirmOrderMQDto;
 import com.akine.mytrain.business.enums.ConfirmOrderStatusEnum;
 import com.akine.mytrain.business.enums.RocketMQTopicEnum;
 import com.akine.mytrain.business.mapper.ConfirmOrderMapper;
@@ -91,8 +92,12 @@ public class BeforeConfirmOrderService {
 
 
         // 发送MQ排队购票
-        req.setLogId(MDC.get("LOG_ID"));
-        String reqJson = JSON.toJSONString(req);
+        // 发送MQ排队购票
+        ConfirmOrderMQDto confirmOrderMQDto = new ConfirmOrderMQDto();
+        confirmOrderMQDto.setDate(req.getDate());
+        confirmOrderMQDto.setTrainCode(req.getTrainCode());
+        confirmOrderMQDto.setLogId(MDC.get("LOG_ID"));
+        String reqJson = JSON.toJSONString(confirmOrderMQDto);
         logger.info("排队购票，发送mq开始，消息{}", reqJson);
         rocketMQTemplate.convertAndSend(RocketMQTopicEnum.CONFIRM_ORDER.getCode(), reqJson);
         logger.info("排队购票，发送mq结束");

@@ -253,7 +253,9 @@ public class ConfirmOrderService {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } finally {
+
             if (tryLock && lock.isHeldByCurrentThread()) {
+                logger.info("购票流程结束，释放锁！lockKey：{}", lockKey);
                 lock.unlock();
             }
         }
