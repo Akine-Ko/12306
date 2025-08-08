@@ -19,6 +19,7 @@ import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -89,6 +90,8 @@ public class BeforeConfirmOrderService {
         confirmOrderMapper.insert(confirmOrder);
 
 
+        // 发送MQ排队购票
+        req.setLogId(MDC.get("LOG_ID"));
         String reqJson = JSON.toJSONString(req);
         logger.info("排队购票，发送mq开始，消息{}", reqJson);
         rocketMQTemplate.convertAndSend(RocketMQTopicEnum.CONFIRM_ORDER.getCode(), reqJson);
