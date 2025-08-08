@@ -1,5 +1,6 @@
 package com.akine.mytrain.business.mq;
 
+import com.akine.mytrain.business.dto.ConfirmOrderMQDto;
 import com.akine.mytrain.business.req.ConfirmOrderDoReq;
 import com.akine.mytrain.business.service.ConfirmOrderService;
 import com.alibaba.fastjson.JSON;
@@ -24,11 +25,11 @@ public class ConfirmOrderConsumer implements RocketMQListener<MessageExt> {
     @Override
     public void onMessage(MessageExt messageExt) {
         byte[] body = messageExt.getBody();
-        ConfirmOrderDoReq req = JSON.parseObject(new String(body), ConfirmOrderDoReq.class);
-        MDC.put("LOG_ID", req.getLogId());
+        ConfirmOrderMQDto dto = JSON.parseObject(new String(body), ConfirmOrderMQDto.class);
+        MDC.put("LOG_ID", dto.getLogId());
         log.info("ROCKETMQ收到消息:{}", new String(body));
         try {
-            confirmOrderService.doConfirm(req);
+            confirmOrderService.doConfirm(dto);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
