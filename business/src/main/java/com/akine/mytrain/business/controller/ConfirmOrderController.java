@@ -1,6 +1,7 @@
 package com.akine.mytrain.business.controller;
 
 import com.akine.mytrain.business.req.ConfirmOrderDoReq;
+import com.akine.mytrain.business.service.BeforeConfirmOrderService;
 import com.akine.mytrain.business.service.ConfirmOrderService;
 import com.akine.mytrain.common.exception.BusinessExceptionEnum;
 import com.akine.mytrain.common.resp.CommonResp;
@@ -23,6 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class ConfirmOrderController {
 
     @Resource
+    private BeforeConfirmOrderService beforeConfirmOrderService;
+
+    @Resource
     private ConfirmOrderService confirmOrderService;
 
     private static final Logger logger = LoggerFactory.getLogger(ConfirmOrderController.class);
@@ -32,7 +36,7 @@ public class ConfirmOrderController {
 
     @SentinelResource(value = "confirmOrderDo", blockHandler = "doConfirmBlock")
     @PostMapping("/do")
-    public CommonResp<Object> doConfirm(@Valid @RequestBody ConfirmOrderDoReq req) {
+    public CommonResp<Object> doConfirm(@Valid @RequestBody ConfirmOrderDoReq req) throws InterruptedException {
         // 图形验证码校验
         String imageCodeToken = req.getImageCodeToken();
         String imageCode = req.getImageCode();
@@ -49,7 +53,7 @@ public class ConfirmOrderController {
             redisTemplate.delete(imageCodeToken);
         }
 
-        confirmOrderService.doConfirm(req);
+        beforeConfirmOrderService.beforeDoConfirm(req);
         return new CommonResp<>();
     }
 
