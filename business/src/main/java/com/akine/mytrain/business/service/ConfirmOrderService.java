@@ -79,7 +79,8 @@ public class ConfirmOrderService {
             confirmOrder.setCreateTime(now);
             confirmOrder.setUpdateTime(now);
             confirmOrderMapper.insert(confirmOrder);
-        } else {
+        }
+        else {
             confirmOrder.setUpdateTime(now);
             confirmOrderMapper.updateByPrimaryKey(confirmOrder);
         }
@@ -124,7 +125,8 @@ public class ConfirmOrderService {
 
             if (tryLock) {
                 logger.info("恭喜抢到锁了");
-            } else {
+            }
+            else {
                 logger.info("很遗憾，没抢到锁");
                 throw new BusinessException(BusinessExceptionEnum.CONFIRM_ORDER_LOCK_FAIL);
             }
@@ -150,10 +152,11 @@ public class ConfirmOrderService {
                 list.forEach(this::sell);
             }
 
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e) {
             throw new RuntimeException(e);
-        } finally {
-
+        }
+        finally {
             if (tryLock && lock.isHeldByCurrentThread()) {
                 logger.info("购票流程结束，释放锁！lockKey：{}", lockKey);
                 lock.unlock();
@@ -180,6 +183,11 @@ public class ConfirmOrderService {
         req.setLogId("");
 
         // 省略业务数据校验，如：车次是否存在，余票是否存在，车次是否在有效期内，tickets条数>0，同乘客同车次是否已买过
+
+        // 将订单设置成处理中，避免重复处理
+        logger.info("将确认订单更新成处理中，避免重复处理，confirm_order.id: {}", confirmOrder.getId());
+        confirmOrder.setStatus(ConfirmOrderStatusEnum.PENDING.getCode());
+        updateStatus(confirmOrder);
 
         Date date = req.getDate();
         String trainCode = req.getTrainCode();
@@ -238,7 +246,8 @@ public class ConfirmOrderService {
                     dailyTrainTicket.getEndIndex(),
                     finalSeatList);
 
-        } else {
+        }
+        else {
             logger.info("本次购票没有选座");
             for (ConfirmOrderTicketReq ticketReq : tickets) {
                 getSeat(date,
@@ -261,7 +270,8 @@ public class ConfirmOrderService {
         // 更新确认订单为成功
         try {
             afterConfirmOrderService.afterDoConfirm(dailyTrainTicket, finalSeatList, tickets, confirmOrder);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             logger.error("保存购票信息失败", e);
             throw new BusinessException(BusinessExceptionEnum.CONFIRM_ORDER_EXCEPTION);
         }
@@ -368,6 +378,18 @@ public class ConfirmOrderService {
                 return;
             }
         }
+    }
+
+    /**
+     * 更新状态
+     * @param confirmOrder
+     */
+    public void updateStatus(ConfirmOrder confirmOrder) {
+        ConfirmOrder confirmOrderForUpdate = new ConfirmOrder();
+        confirmOrderForUpdate.setId(confirmOrder.getId());
+        confirmOrderForUpdate.setUpdateTime(new Date());
+        confirmOrderForUpdate.setStatus(confirmOrder.getStatus());
+        confirmOrderMapper.updateByPrimaryKeySelective(confirmOrderForUpdate);
     }
 
     /**
