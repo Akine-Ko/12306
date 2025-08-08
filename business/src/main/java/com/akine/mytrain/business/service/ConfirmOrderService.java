@@ -127,8 +127,8 @@ public class ConfirmOrderService {
                 logger.info("恭喜抢到锁了");
             }
             else {
-                logger.info("很遗憾，没抢到锁");
-                throw new BusinessException(BusinessExceptionEnum.CONFIRM_ORDER_LOCK_FAIL);
+                logger.info("没抢到锁，有其它消费线程正在出票，不做任何处理");
+                return;
             }
 
             while (true){
