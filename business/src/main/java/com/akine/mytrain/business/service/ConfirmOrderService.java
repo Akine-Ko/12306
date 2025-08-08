@@ -113,42 +113,10 @@ public class ConfirmOrderService {
 
     @SentinelResource(value = "doConfirm", blockHandler = "doConfirmBlock")
     public void doConfirm(ConfirmOrderDoReq req) throws InterruptedException {
-//        boolean validSkToken = skTokenService.validSkToken(req.getDate(), req.getTrainCode(), LoginMemberContext.getId());
-//        if(validSkToken){
-//            logger.info("令牌校验通过");
-//        }
-//        else{
-//            logger.info("令牌校验不通过");
-//            throw new BusinessException(BusinessExceptionEnum.CONFIRM_ORDER_SK_TOKEN_FAIL);
-//        }
-//
-//        String lockKey = RedisKeyPreEnum.CONFIRM_ORDER + "-" + DateUtil.formatDate(req.getDate()) + "-" + req.getTrainCode();
-////        Boolean setIfAbsent = redisTemplate.opsForValue().setIfAbsent(lockKey, "1", 5, TimeUnit.SECONDS);
-////        if(setIfAbsent){
-////            logger.info("抢到锁了");
-////        }
-////        else{
-////            logger.info("没抢到锁");
-////            throw new BusinessException(BusinessExceptionEnum.CONFIRM_ORDER_LOCK_FAIL);
-////        }
-//        RLock lock = redissonClient.getLock(lockKey);
-
-
-//            lock = redissonClient.getLock(lockKey);
-//            boolean tryLock = lock.tryLock(0, TimeUnit.SECONDS);
-//
-//            if (tryLock) {
-//                logger.info("恭喜抢到锁了");
-//            }
-//            else{
-//                logger.info("很遗憾，没抢到锁");
-//                throw new BusinessException(BusinessExceptionEnum.CONFIRM_ORDER_LOCK_FAIL);
-//            }
-
 
         String lockKey = RedisKeyPreEnum.CONFIRM_ORDER + "-" + DateUtil.formatDate(req.getDate()) + "-" + req.getTrainCode();
         RLock lock = redissonClient.getLock(lockKey);
-        boolean tryLock = lock.tryLock(0, TimeUnit.SECONDS);
+        boolean tryLock = lock.tryLock(0, 10,TimeUnit.SECONDS);
 
         if (tryLock) {
             logger.info("恭喜抢到锁了");

@@ -21,7 +21,7 @@ import jakarta.annotation.Resource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -44,8 +44,9 @@ public class SkTokenService {
 
     @Resource
     private SkTokenMapperCust skTokenMapperCust;
+
     @Autowired
-    private RedisTemplate<Object, Object> redisTemplate;
+    private StringRedisTemplate redisTemplate;
 
     public void save(SkTokenSaveReq req) {
         DateTime now = DateTime.now();
