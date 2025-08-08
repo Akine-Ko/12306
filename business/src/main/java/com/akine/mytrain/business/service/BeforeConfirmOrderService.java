@@ -17,9 +17,11 @@ import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
+@Service
 public class BeforeConfirmOrderService {
 
     private static final Logger logger = LoggerFactory.getLogger(BeforeConfirmOrderService.class);
