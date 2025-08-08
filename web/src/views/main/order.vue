@@ -120,7 +120,7 @@
   <a-modal v-model:visible="lineModalVisible" :title="null" :footer="null" :maskClosable="false" :closable="false"
            style="top: 50px; width: 400px">
     <div class="book-line">
-      <loading-outlined /> 系统正在处理中...
+      <loading-outlined /> 确认订单:{{confirmOrderId}}, 系统正在处理中...
     </div>
   </a-modal>
 
@@ -182,6 +182,7 @@ export default defineComponent({
     const PASSENGER_TYPE_ARRAY = window.PASSENGER_TYPE_ARRAY;
     const visible = ref(false);
     const lineModalVisible = ref(false);
+    const confirmOrderId = ref();
 
     // 勾选或去掉某个乘客时，在购票列表中加上或去掉一张表
     watch(() => passengerChecks.value, (newVal, oldVal)=>{
@@ -363,6 +364,7 @@ export default defineComponent({
           visible.value = false;
           imageCodeModalVisible.value = false;
           lineModalVisible.value = true;
+          confirmOrderId.value = data.content;
         }
         else {
           notification.error({description:data.message});
@@ -413,7 +415,8 @@ export default defineComponent({
       showImageCodeModal,
       imageCodeModalVisible,
       loadImageCode,
-      lineModalVisible
+      lineModalVisible,
+      confirmOrderId,
     };
   },
 });

@@ -57,7 +57,7 @@ public class BeforeConfirmOrderService {
 
 
     @SentinelResource(value = "beforeDoConfirm", blockHandler = "beforeDoConfirmBlock")
-    public void beforeDoConfirm(ConfirmOrderDoReq req) throws InterruptedException {
+    public Long beforeDoConfirm(ConfirmOrderDoReq req) throws InterruptedException {
         req.setMemberId(LoginMemberContext.getId());
         // 校验令牌余量
         boolean validSkToken = skTokenService.validSkToken(req.getDate(), req.getTrainCode(), LoginMemberContext.getId());
@@ -101,6 +101,8 @@ public class BeforeConfirmOrderService {
         logger.info("排队购票，发送mq开始，消息{}", reqJson);
         rocketMQTemplate.convertAndSend(RocketMQTopicEnum.CONFIRM_ORDER.getCode(), reqJson);
         logger.info("排队购票，发送mq结束");
+
+        return confirmOrder.getId();
     }
 
 

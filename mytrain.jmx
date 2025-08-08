@@ -194,7 +194,7 @@
         </hashTree>
       </hashTree>
       <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="线程组">
-        <intProp name="ThreadGroup.num_threads">200</intProp>
+        <intProp name="ThreadGroup.num_threads">20</intProp>
         <intProp name="ThreadGroup.ramp_time">1</intProp>
         <boolProp name="ThreadGroup.same_user_on_next_iteration">true</boolProp>
         <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
@@ -218,10 +218,10 @@
               <elementProp name="" elementType="HTTPArgument">
                 <boolProp name="HTTPArgument.always_encode">false</boolProp>
                 <stringProp name="Argument.value">{&#xd;
-    &quot;dailyTrainTicketId&quot;:1953661629967241216,&#xd;
+    &quot;dailyTrainTicketId&quot;:1953661630827073536,&#xd;
     &quot;date&quot;:&quot;2025-08-08&quot;,&#xd;
-    &quot;end&quot;:&quot;合肥&quot;,&#xd;
-    &quot;start&quot;:&quot;巢湖&quot;,&#xd;
+    &quot;end&quot;:&quot;南昌&quot;,&#xd;
+    &quot;start&quot;:&quot;合肥&quot;,&#xd;
     &quot;tickets&quot;:[{&#xd;
            &quot;passengerId&quot;:1950835415284060160,&#xd;
            &quot;passengerIdCard&quot;:&quot;321123&quot;,&#xd;
