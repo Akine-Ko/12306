@@ -33,8 +33,10 @@ import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -115,8 +117,10 @@ public class ConfirmOrderService {
 
 
     @SentinelResource(value = "doConfirm", blockHandler = "doConfirmBlock")
+    @Async
     public void doConfirm(ConfirmOrderMQDto dto) throws InterruptedException {
-
+        MDC.put("LOG_ID", dto.getLogId());
+        logger.info("异步出票开始:{}", dto);
         String lockKey = RedisKeyPreEnum.CONFIRM_ORDER + "-" + DateUtil.formatDate(dto.getDate()) + "-" + dto.getTrainCode();
         RLock lock = redissonClient.getLock(lockKey);
         boolean tryLock = false;

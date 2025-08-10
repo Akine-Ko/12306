@@ -4,7 +4,6 @@ import cn.hutool.core.date.DateTime;
 import com.akine.mytrain.business.domain.ConfirmOrder;
 import com.akine.mytrain.business.dto.ConfirmOrderMQDto;
 import com.akine.mytrain.business.enums.ConfirmOrderStatusEnum;
-import com.akine.mytrain.business.enums.RocketMQTopicEnum;
 import com.akine.mytrain.business.mapper.ConfirmOrderMapper;
 import com.akine.mytrain.business.req.ConfirmOrderDoReq;
 import com.akine.mytrain.business.req.ConfirmOrderTicketReq;
@@ -16,11 +15,11 @@ import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.alibaba.fastjson.JSON;
 import jakarta.annotation.Resource;
-import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.redisson.api.RedissonClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -51,9 +50,11 @@ public class BeforeConfirmOrderService {
 
     @Resource
     private RedissonClient redissonClient;
-
-    @Resource
-    private RocketMQTemplate rocketMQTemplate;
+    @Autowired
+    private ConfirmOrderService confirmOrderService;
+//
+//    @Resource
+//    private RocketMQTemplate rocketMQTemplate;
 
 
     @SentinelResource(value = "beforeDoConfirm", blockHandler = "beforeDoConfirmBlock")
@@ -98,10 +99,10 @@ public class BeforeConfirmOrderService {
         confirmOrderMQDto.setTrainCode(req.getTrainCode());
         confirmOrderMQDto.setLogId(MDC.get("LOG_ID"));
         String reqJson = JSON.toJSONString(confirmOrderMQDto);
-        logger.info("排队购票，发送mq开始，消息{}", reqJson);
-        rocketMQTemplate.convertAndSend(RocketMQTopicEnum.CONFIRM_ORDER.getCode(), reqJson);
-        logger.info("排队购票，发送mq结束");
-
+//        logger.info("排队购票，发送mq开始，消息{}", reqJson);
+//        rocketMQTemplate.convertAndSend(RocketMQTopicEnum.CONFIRM_ORDER.getCode(), reqJson);
+//        logger.info("排队购票，发送mq结束");
+        confirmOrderService.doConfirm(confirmOrderMQDto);
         return confirmOrder.getId();
     }
 
