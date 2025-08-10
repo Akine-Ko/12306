@@ -63,6 +63,8 @@
     </dependencies>
 
     <build>
+        <finalName>dist/${artifactId}</finalName>
+
         <plugins>
             <!-- mybatis generator 自动生成代码插件 -->
             <plugin>

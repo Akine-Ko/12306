@@ -19,9 +19,6 @@
 
     <dependencies>
 
-
-
-
         <dependency>
             <groupId>com.akine</groupId>
             <artifactId>common</artifactId>
@@ -42,6 +39,8 @@
     </dependencies>
 
     <build>
+        <finalName>dist/${artifactId}</finalName>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
