@@ -127,6 +127,8 @@
         <loading-outlined /> 您前面还有{{confirmOrderLineCount}}位用户在购票，排队中，请稍候
       </div>
     </div>
+    <br/>
+    <a-button type="danger" @click="onCancelOrder">取消购票</a-button>
   </a-modal>
 
 </template>
@@ -437,6 +439,31 @@ export default defineComponent({
       imageCodeModalVisible.value = true;
     };
 
+
+
+
+    /**
+     * 取消排队
+     */
+    const onCancelOrder = () => {
+      axios.get("/business/confirm-order/cancel/" + confirmOrderId.value).then((response) => {
+        let data = response.data;
+        if (data.success) {
+          let result = data.content;
+          if (result === 1) {
+            notification.success({description: "取消成功！"});
+            // 取消成功时，不用再轮询排队结果
+            clearInterval(queryLineCountInterval);
+            lineModalVisible.value = false;
+          } else {
+            notification.error({description: "取消失败！"});
+          }
+        } else {
+          notification.error({description: data.message});
+        }
+      });
+    };
+
     onMounted(() => {
       handleQueryPassenger();
     });
@@ -463,7 +490,8 @@ export default defineComponent({
       loadImageCode,
       lineModalVisible,
       confirmOrderId,
-      confirmOrderLineCount
+      confirmOrderLineCount,
+      onCancelOrder
     };
   },
 });
